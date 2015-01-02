@@ -29,3 +29,11 @@ header h2 {
 header {
   margin-bottom: 3rem;
 }
+
+footer {
+  color: #3C3B3B;
+}
+
+footer time {
+  font-style: italic;
+}
