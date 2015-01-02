@@ -76,19 +76,6 @@ function updateRect (rect, elem) {
  * @return {[type]}       [description]
  */
 function updateArrow (arrow, elem) {
-  var r = elem.getBoundingClientRect();
-  var ra = arrow.getBoundingClientRect();
-
-  if (r.top < ra.height) {
-    arrow.style.top = '0px';
-    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
-    arrow.className = 'arrow';
-  } else {
-    arrow.className = 'arrow show-arrow';
-    arrow.style.top = r.y - ra.height - 10 + 'px';
-    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
-  }
-
   var spans = '';
 
   spans += '<span class="s-tag">' + elem.tagName.toLowerCase() + '</span> ';
@@ -103,6 +90,19 @@ function updateArrow (arrow, elem) {
     spans += ' <span class="s-separator"> | </span> ' + elem.dataset.text + '</span>';
 
   arrow.children[0].innerHTML = spans;
+
+  var r = elem.getBoundingClientRect();
+  var ra = arrow.getBoundingClientRect();
+
+  if (r.top < ra.height) {
+    arrow.style.top = '0px';
+    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
+    arrow.className = 'arrow';
+  } else {
+    arrow.className = 'arrow show-arrow';
+    arrow.style.top = r.y - ra.height - 10 + 'px';
+    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
+  }
 
   return arrow;
 }

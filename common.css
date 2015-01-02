@@ -14,10 +14,25 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 header {
   width: 20rem;
+}
+
+footer {
+  margin-top: 5rem;
+}
+
+footer p {
+  color: #359EBA;
 }
 
 header h1, header h2{
@@ -32,7 +47,7 @@ header h2 {
   font: 1.4rem "Unica One",sans-serif;
 }
 
-main {
+nav {
   width: 10rem;
 }
 
@@ -73,7 +88,7 @@ svg rect {
   position: absolute;
   top: 0;
   left: 0;
-  color: white;
+  color: #EFEFEF;
 }
 
 .arrow.show-arrow:after {
