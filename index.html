@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Somethings about me and what i'm doing">
     <meta name="keywords" content="ciro, costa, about, resume, who">
@@ -13,20 +14,35 @@
 
     <title>Ciro S. Costa</title>
     <link rel="shortcut icon" href="http://cirocosta.github.io/talks/favicon.ico">
+    <link rel="stylesheet" href="common.css">
+    <link href='http://fonts.googleapis.com/css?family=Unica+One|Monda' rel='stylesheet' type='text/css'>
   </head>
 
-  <body>
-    <header>
-      <h1>cirocosta</h1>
-      <h2>A little about what i'm currently doing and what i enjoy</h2>
+  <body data-text="inspect other elements!">
+    <header class="selectable">
+      <h1 id="author" data-text="twitter: @cirowrc">cirocosta</h1>
+      <h2 id="github" data-text="github.com/cirocosta">A LITTLE ABOUT WHAT I'M CURRENTLY DOING AND ENJOYING</h2>
     </header>
 
-    <main>
+    <main class="selectable">
       <ul>
-        <li><a href="thoughts.html">thoughts</a></li>
-        <li><a href="/talks">talks</a></li>
-        <li><a href="me.html">me</a></li>
+        <li class="more"><a href="/thoughts" data-text="some articles">thoughts</a></li>
+        <li class="more"><a href="/talks" data-text="talks i gave">talks</a></li>
+        <li class="more"><a href="/me" data-text="about me!">me</a></li>
       </ul>
     </main>
+
+    <div class="arrow">
+      <p>something</p>
+    </div>
+
+    <svg class="dashed-lines">
+      <rect />
+      <line class="line-v1" stroke-dasharray="5, 5" />
+      <line class="line-v2" stroke-dasharray="5, 5" />
+      <line class="line-h1" stroke-dasharray="5, 5" />
+      <line class="line-h2" stroke-dasharray="5, 5" />
+    </svg>
+    <script src="index.js"></script>
   </body>
 </html>
