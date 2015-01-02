@@ -34,10 +34,10 @@ var elems = {
 function updateLines (lines, elem) {
   var r = elem.getBoundingClientRect();
 
-  var v1 = [[r.x, 0], [r.x, window.innerHeight]];
-  var v2 = [[r.x + r.width, 0], [r.x + r.width, window.innerHeight]];
-  var h1 = [[0, r.y], [window.innerWidth, r.y]];
-  var h2 = [[0, r.y + r.height], [window.innerWidth, r.y + r.height]];
+  var v1 = [[r.left, 0], [r.left, window.innerHeight]];
+  var v2 = [[r.left + r.width, 0], [r.left + r.width, window.innerHeight]];
+  var h1 = [[0, r.top], [window.innerWidth, r.top]];
+  var h2 = [[0, r.top + r.height], [window.innerWidth, r.top + r.height]];
 
   var lds = [v1, v2, h1, h2];
 
@@ -61,8 +61,8 @@ function updateLines (lines, elem) {
 function updateRect (rect, elem) {
   var r = elem.getBoundingClientRect();
 
-  rect.setAttribute('x', r.x);
-  rect.setAttribute('y', r.y);
+  rect.setAttribute('x', r.left);
+  rect.setAttribute('y', r.top);
   rect.setAttribute('width', r.width);
   rect.setAttribute('height', r.height);
 
@@ -96,12 +96,12 @@ function updateArrow (arrow, elem) {
 
   if (r.top < ra.height) {
     arrow.style.top = '0px';
-    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
+    arrow.style.left = r.left + (r.width/2|0) - (ra.width/2|0) + 'px';
     arrow.className = 'arrow';
   } else {
     arrow.className = 'arrow show-arrow';
-    arrow.style.top = r.y - ra.height - 10 + 'px';
-    arrow.style.left = r.x + (r.width/2|0) - (ra.width/2|0) + 'px';
+    arrow.style.top = r.top - ra.height - 10 + 'px';
+    arrow.style.left = r.left + (r.width/2|0) - (ra.width/2|0) + 'px';
   }
 
   return arrow;
@@ -132,5 +132,7 @@ elems.current = document.querySelector('h1');
 // TODO fix reflow issues
 window.onresize = updateAll;
 document.querySelector('body').onmouseover = function (e) {
+  console.log(e.target);
+
   elems.current = e.target;
 };
