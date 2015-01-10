@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Somethings about me and what i'm doing">
+    <meta name="keywords" content="ciro, costa, about, resume, who">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Ciro Costa | Me">
+    <meta property="og:description" content="Somethings about me and what i'm doing">
+    <meta property="og:image" content="http://cirocosta.github.io/cirocosta.png">
+
+    <title>Ciro S. Costa | Me</title>
+    <style>
+      body {
+        padding: 100px;
+      }
+
+      .container {
+        perspective: 500px;
+        transform-style: preserve-3d;
+
+        transform: rotateX(-41deg);
+      }
+
+      .box {
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform .3s ease;
+      }
+
+      .inspect3d {
+        backface-visibility: hidden;
+        position: relative;
+      }
+
+      .inspect3d-front {
+        width: 100px;
+        height: 80px;
+        background: rgba(0,0,0, .6);
+
+        transform: translateZ(5px);
+      }
+
+      .inspect3d-top {
+        width: 100px;
+        height: 10px;
+        background: black;
+
+        transform: rotateX(90deg) translateZ(-5px);
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <main class="box">
+        <div class="inspect3d inspect3d-top"></div>
+        <div class="inspect3d inspect3d-front"></div>
+        <!-- <div class="inspect3d-right"></div>
+        <div class="inspect3d-bottom"></div>
+        <div class="inspect3d-left"></div> -->
+      </main>
+
+      <main class="box">
+        <div class="inspect3d inspect3d-top"></div>
+        <div class="inspect3d inspect3d-front"></div>
+        <!-- <div class="inspect3d-right"></div>
+        <div class="inspect3d-bottom"></div>
+        <div class="inspect3d-left"></div> -->
+      </main>
+    </div>
+
+  <script src="index.js"></script>
+  </body>
+</html>
