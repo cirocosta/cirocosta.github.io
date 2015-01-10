@@ -18,10 +18,11 @@
       }
 
       .container {
-        perspective: 500px;
+        perspective: 300px;
         transform-style: preserve-3d;
+        transition: transform .1s;
 
-        transform: rotateX(-41deg);
+        transform: rotateY(-41deg);
       }
 
       .box {
@@ -31,8 +32,8 @@
       }
 
       .inspect3d {
-        backface-visibility: hidden;
-        position: relative;
+        /*backface-visibility: hidden;*/
+        position: absolute;
       }
 
       .inspect3d-front {
@@ -48,7 +49,31 @@
         height: 10px;
         background: black;
 
-        transform: rotateX(90deg) translateZ(-5px);
+        transform: rotateX(90deg) translateZ(85px);
+      }
+
+      .inspect3d-right {
+        width: 10px;
+        height: 80px;
+        background: rgba(0, 255, 0, .3);
+
+        transform: rotateY(90deg) translateZ(95px) translateY(-80px);
+      }
+
+      .inspect3d-left {
+        width: 10px;
+        height: 80px;
+        background: rgba(255, 0, 0, .3);
+
+        transform: rotateY(90deg) translateZ(-5px) translateY(-80px);
+      }
+
+      .inspect3d-bottom {
+        width: 100px;
+        height: 10px;
+        background: rgba(0, 0, 255, .3);
+
+        transform: rotateX(90deg) translateZ(5px);
       }
     </style>
   </head>
@@ -56,20 +81,21 @@
 
     <div class="container">
       <main class="box">
+        <div class="inspect3d-front"></div>
         <div class="inspect3d inspect3d-top"></div>
-        <div class="inspect3d inspect3d-front"></div>
-        <!-- <div class="inspect3d-right"></div>
-        <div class="inspect3d-bottom"></div>
-        <div class="inspect3d-left"></div> -->
+        <div class="inspect3d inspect3d-right"></div>
+        <div class="inspect3d inspect3d-left"></div>
+        <div class="inspect3d inspect3d-bottom"></div>
       </main>
 
       <main class="box">
+        <div class="inspect3d-front"></div>
         <div class="inspect3d inspect3d-top"></div>
-        <div class="inspect3d inspect3d-front"></div>
-        <!-- <div class="inspect3d-right"></div>
-        <div class="inspect3d-bottom"></div>
-        <div class="inspect3d-left"></div> -->
+        <div class="inspect3d inspect3d-right"></div>
+        <div class="inspect3d inspect3d-left"></div>
+        <div class="inspect3d inspect3d-bottom"></div>
       </main>
+
     </div>
 
   <script src="index.js"></script>
