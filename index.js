@@ -132,7 +132,5 @@ elems.current = document.querySelector('h1');
 // TODO fix reflow issues
 window.onresize = updateAll;
 document.querySelector('body').onmouseover = function (e) {
-  console.log(e.target);
-
   elems.current = e.target;
 };
