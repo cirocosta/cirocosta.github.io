@@ -12,11 +12,40 @@ function cx (classes) {
   }).join(' ');
 }
 
+/**
+ * Calculates the depth of a given element.
+ * @param  {HTMLElement} elem
+ * @return {number}
+ */
 function elemDepth (elem) {
   return elem.parentElement ? elemDepth(elem.parentElement) + 1 : 0;
 }
 
+/**
+ * Obtains full dimension (width,height + margins + padding)
+ * @param  {[type]} elem [description]
+ * @return {[type]}      [description]
+ */
+function getFullDim (elem) {
+  var styles = window.getComputedStyle(elem);
+  var height = elem.offsetHeight +
+               parseFloat(styles['marginTop']) +
+               parseFloat(styles['marginBottom']);
 
+  var width = elem.offsetWidth +
+               parseFloat(styles['marginLeft']) +
+               parseFloat(styles['marginRight']);
+
+  return {
+    width: width,
+    height: height
+  };
+}
+
+/**
+ * Encapsulates CSS style generators
+ * @type {Object}
+ */
 var changeStyle = {
   _change: function (elem, styles) {
     for (var style in styles)
@@ -107,9 +136,18 @@ function initRoot (root) {
 
   for (var i = 1; i < stack.length; i++)
     initElement(stack[i], elemDepth(stack[i]) - 3);
+
+  setTimeout(function () {
+    container.className = 'container container-active';
+  }, 300);
 }
 
-
+/**
+ * Initializes an HTMLElement as a 3D box
+ * @param  {HTMLElement} elem
+ * @param  {number} depth
+ * @return {void}
+ */
 function initElement (elem, depth) {
   var parent = elem.parentNode;
   var div = document.createElement('div');
@@ -139,8 +177,6 @@ function initElement (elem, depth) {
     height: elem.scrollHeight
   };
 
-  console.log(dim);
-
   changeStyle.front(elem, dim.width, dim.height, depth);
   changeStyle.top(div.appendChild(top), dim.width, dim.height, depth);
   changeStyle.right(div.appendChild(right), dim.width, dim.height, depth);
@@ -154,6 +190,8 @@ var threed = {
   _traverse: traverse,
   _elemDepth: elemDepth
 };
+
+
 
 (function (root, factory) {
   if (typeof exports === 'object')

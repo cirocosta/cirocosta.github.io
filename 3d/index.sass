@@ -6,21 +6,29 @@ $front-height: 80px
 body
   padding: 100px
 
+p,
+h1
+  margin: 0
+
 .container
   perspective: 300px
   transform-style: preserve-3d
-  transition: transform .1s
+  transition: transform 1s ease
 
+
+.container-active
   transform: rotateY(-47deg) rotateX(-34deg)
-
+  // transition: transform .1s ease
 
 .box
   position: relative
   transform-style: preserve-3d
-  transition: transform .3s ease
+  // transition: transform .3s ease
+
 
 .inspect3d
   position: absolute
+  box-shadow: inset 1px 1px #7E7878, inset -1px -1px #A5A5A5
   /*backface-visibility: hidden*/
 
 
@@ -36,7 +44,7 @@ body
 
 
 .inspect3d-top
-  background: rgba(0, 0, 0, .3)
+  background-image: linear-gradient(to bottom, white, #50A7B1)
 //   width: $front-width
 //   height: $box-depth
 
@@ -44,7 +52,7 @@ body
 
 
 .inspect3d-right
-  background: rgba(0, 255, 0, .3)
+  background-image: linear-gradient(to left, white, #418E9B)
 //   width: $box-depth
 //   height: $front-height
 

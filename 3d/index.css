@@ -1,19 +1,25 @@
 body {
   padding: 100px; }
 
+p,
+h1 {
+  margin: 0; }
+
 .container {
   perspective: 300px;
   transform-style: preserve-3d;
-  transition: transform 0.1s;
+  transition: transform 1s ease; }
+
+.container-active {
   transform: rotateY(-47deg) rotateX(-34deg); }
 
 .box {
   position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease; }
+  transform-style: preserve-3d; }
 
 .inspect3d {
   position: absolute;
+  box-shadow: inset 1px 1px #7e7878, inset -1px -1px #a5a5a5;
   /*backface-visibility: hidden */ }
 
 .inspect3d-front {
@@ -22,10 +28,10 @@ body {
   background: white; }
 
 .inspect3d-top {
-  background: rgba(0, 0, 0, 0.3); }
+  background-image: linear-gradient(to bottom, white, #50a7b1); }
 
 .inspect3d-right {
-  background: rgba(0, 255, 0, 0.3); }
+  background-image: linear-gradient(to left, white, #418e9b); }
 
 .inspect3d-left {
   background: rgba(255, 0, 0, 0.3); }

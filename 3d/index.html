@@ -17,14 +17,23 @@
   </head>
   <body>
 
+    <button>3D View</button>
+
     <div id="cool">
       <header>
-        <p>HUENIVERSE</p>
-        <!-- <p>HUENIVERSE</p> -->
+        <h1>cirocosta</h1>
+        <ul>
+          <li>menu</li>
+          <li>cool</li>
+        </ul>
       </header>
     </div>
 
   <script src="3d.js"></script>
-  <script src="index.js"></script>
+  <script>
+    document.querySelector('button').onclick = function (e) {
+      threed.initRoot(document.querySelector('#cool'));
+    };
+  </script>
   </body>
 </html>

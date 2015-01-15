@@ -49,5 +49,4 @@
 //   _lastMove.y = e.clientY;
 // }, 100));
 
-threed.initRoot(document.querySelector('#cool'));
 
