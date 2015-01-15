@@ -122,3 +122,20 @@ svg rect {
 .s-class {
   color: rgb(64, 172, 198);
 }
+
+line {
+  animation: dash 1s linear infinite;
+  -webkit-animation: dash 1s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 50;
+  }
+}
+
+@-webkit-keyframes dash {
+  to {
+    stroke-dashoffset: 50;
+  }
+}
