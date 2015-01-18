@@ -65,6 +65,7 @@ li a {
 
 #SPECIAL {
   cursor: pointer;
+  text-decoration: underline;
 }
 
 svg {

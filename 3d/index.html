@@ -13,7 +13,7 @@
 
     <title>Ciro S. Costa | Me</title>
 
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="3d.css">
   </head>
   <body>
 
@@ -30,10 +30,13 @@
     </div>
 
   <script src="3d.js"></script>
+  <script src="3dMove.js"></script>
   <script>
     document.querySelector('button').onclick = function (e) {
       threed.initRoot(document.querySelector('#cool'));
     };
+
+    threedMove.enable3dMove();
   </script>
   </body>
 </html>

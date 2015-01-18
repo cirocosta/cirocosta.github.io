@@ -173,4 +173,5 @@ activateInspector();
 document.querySelector('#SPECIAL').onclick = function (e) {
   deactivateInspector();
   threed.initRoot(document.querySelector('body'));
+  threedMove.enable3dMove();
 };
