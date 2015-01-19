@@ -63,6 +63,11 @@ li a {
   letter-spacing: .1rem;
 }
 
+#SPECIAL {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 svg {
   pointer-events: none;
   width: 100%;

@@ -1,4 +1,10 @@
+/**
+ * General elements to be used
+ * @type {Object}
+ */
 var elems = {
+  BODY: document.querySelector('body'),
+  SVG: document.querySelector('.dashed-lines'),
   RECT: document.querySelector('.dashed-lines rect'),
   ARROW: document.querySelector('.arrow'),
   LINES: [
@@ -107,10 +113,43 @@ function updateArrow (arrow, elem) {
   return arrow;
 }
 
+/**
+ * Updates lines, rect and arrows
+ * @return {void}
+ */
 function updateAll () {
   updateLines(elems.LINES, elems._current);
   updateRect(elems.RECT, elems._current);
   updateArrow(elems.ARROW, elems._current);
+}
+
+/**
+ * Deactivates the inspector
+ * @return {void}
+ */
+function deactivateInspector () {
+  elems.SVG.style['visibility'] = 'hidden';
+  elems.ARROW.style['visibility'] = 'hidden';
+
+  window.removeEventListener('resize', updateAll);
+  elems.BODY.removeEventListener('mouseover', setCurrentElement);
+}
+
+/**
+ * Activates the inspector
+ * @return {void}
+ */
+function activateInspector () {
+  elems.SVG.style['visibility'] = 'visible';
+  elems.ARROW.style['visibility'] = 'visible';
+
+  elems.current = document.querySelector('h1');
+  window.addEventListener('resize', updateAll);
+  elems.BODY.addEventListener('mouseover', setCurrentElement);
+}
+
+function setCurrentElement (e) {
+  elems.current = e.target;
 }
 
 /**
@@ -127,10 +166,12 @@ Object.defineProperty(elems, 'current', {
 /**
  * Triggering the first update
  */
-elems.current = document.querySelector('h1');
+activateInspector();
 
-// TODO fix reflow issues
-window.onresize = updateAll;
-document.querySelector('body').onmouseover = function (e) {
-  elems.current = e.target;
+// 3D View
+
+document.querySelector('#SPECIAL').onclick = function (e) {
+  deactivateInspector();
+  threed.initRoot(document.querySelector('body'));
+  threedMove.enable3dMove();
 };

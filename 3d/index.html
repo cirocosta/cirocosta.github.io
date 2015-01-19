@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Somethings about me and what i'm doing">
+    <meta name="keywords" content="ciro, costa, about, resume, who">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Ciro Costa | Me">
+    <meta property="og:description" content="Somethings about me and what i'm doing">
+    <meta property="og:image" content="http://cirocosta.github.io/cirocosta.png">
+
+    <title>Ciro S. Costa | Me</title>
+
+    <link rel="stylesheet" href="3d.css">
+  </head>
+  <body>
+
+    <button>3D View</button>
+
+    <div id="cool">
+      <header>
+        <h1>cirocosta</h1>
+        <ul>
+          <li>menu</li>
+          <li>cool</li>
+        </ul>
+      </header>
+    </div>
+
+  <script src="3d.js"></script>
+  <script src="3dMove.js"></script>
+  <script>
+    document.querySelector('button').onclick = function (e) {
+      threed.initRoot(document.querySelector('#cool'));
+    };
+
+    threedMove.enable3dMove();
+  </script>
+  </body>
+</html>

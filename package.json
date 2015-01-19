@@ -3,28 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "gulp": "^3.8.8",
-    "gulp-csso": "^0.2.9",
-    "gulp-htmlmin": "^0.2.0",
-    "gulp-livereload": "^2.1.1",
-    "gulp-sass": "^1.0.0"
-  },
-  "devDependencies": {
-    "gulp": "^3.8.8",
-    "gulp-csso": "^0.2.9",
-    "gulp-htmlmin": "^0.2.0",
-    "gulp-livereload": "^2.1.1",
-    "gulp-sass": "^1.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cirocosta/cirocosta.github.io.git"
   },
-  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://www.cirocosta.com/)",
+  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://cirocosta.github.io/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cirocosta/cirocosta.github.io/issues"
   },
-  "homepage": "https://github.com/cirocosta/cirocosta.github.io"
+  "homepage": "https://github.com/cirocosta/cirocosta.github.io",
+  "dependencies": {
+    "jsdom": "^2.0.0",
+    "mocha": "^2.1.0",
+    "mocha-jsdom": "^0.2.0"
+  }
 }
