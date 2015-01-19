@@ -38,16 +38,17 @@ var on3dmove = throttle(function (e) {
   else
     _lastTick = now;
 
-  if (!(e.buttons || e.which))
+  if (e.buttons == null && !e.which) // chrome
     return;
+  else if (e.buttons === 0) // ff
+    return;
+
 
   _degs.x += (e.clientX - _lastMove.x);
   _degs.y += (e.clientY - _lastMove.y);
 
   container.style.transform = 'rotateY(' + _degs.x + 'deg)' +
                               ' rotateX(' + (-_degs.y) + 'deg)';
-
-  console.log(e.clientX - _lastMove.x, e.clientY - _lastMove.y);
 
   _lastMove.x = e.clientX;
   _lastMove.y = e.clientY;
