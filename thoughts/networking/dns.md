@@ -4,7 +4,33 @@ author: Ciro S. Costa
 date: Aug 23, 2015
 ---
 
-// FROM Top Down Networking
+// TODO organizar
+
+*DNS*
+
+:   (Domain Name System) trata-se do protocolo que trata de resolver nomes em endereços IP (função principal), isto é, reconciliar as preferencias to roteador (IP - tamanho fixo e bem definido) com as preferencias do usuário (nomes que fazem sentido à aplicação). Outras funções do DNS é oferecer o modo reverso (dado um IP resolver o nome), descobrir o servidor de email de um domínio.
+
+    Trata-se de uma base de dados distribuída que mantém o registro desses nomes e endereços.
+
+    O Protocolo se da na camada de aplicação, sendo usado indiretamente por quase todos os protocolos.
+
+Sua arquitetura se da de modo hierárquivo com separação entre servidores, Havendo poucos servidores na raíz.
+
+
+Por padrão funciona na porta 53, UDP. Melhor correr o risco depedir novamente do que depender de 5 pacotes de TCP (abrir conexão e fechar a conexão). Muito melhor depender de um 'non-reliable'. No caso de alguma troca de bit, por exemplo (mantendo um ip válido) a camada de IP ainda consegue verificar se se trata de uma boa formação ou não (checsums).
+
+ps: arquivo `/etc/hosts` trata-se de um arquivo simples de texto que trata de associar endereços de IP a hostnames, linha a linha (tanto para ipv4 quanto para ipv6).
+
+Servidores DNS costumam ser muito visados por atacantes uma vez que os clientes confiam naquilo que é recebido.
+
+1. Olhar o cache
+2. verifica se o nome está presente em /etc/hosts
+3. conecta no servidor DNS (olhando o arquivo /etc/resolv.conf) (e.g., estando na usp: `search semfio.usp.br`)
+
+( ps.: o melhor é manter um servidor DNS fixo para se utilizar, e não deixar que o SO faça a busca pelo servidor e altere isso. //TODO verificar!)
+
+
+# FROM Top Down Networking
 
 The idea behind the IP address system is the idea of providing a fixed-length, hierarchically structure identifier for nodes. In order to reconcile the router preferences (IP address) with humans preferences (mnemonic hostname identifiers) there's the need for a translation system: the Domain Name System (DNS), which is essentially a distributed database implemented in a hierarchy of DNS servers and an application-layer protocol (runs over UDP and uses the well-known port 53) that allows hosts to query the distributed database.
 
@@ -52,6 +78,27 @@ Fact: no single DNS server has all of the mappings for all of the hosts in the i
 └── .edu            // edu TLD
     └── mit.edu
 ```
+
+Apesar de teoricamente poder fazer a pesquisa de raíz à toplevel e autoritativo não é necessário que isto seja feito. Ná pratica em todas as camadas é feito cache, incluindo a nivel de SO. Não estando no cache local, a query é feita para o parente mais próximo.
+
+
+### Servidor BIND
+
+https://en.wikipedia.org/wiki/BIND
+
+> is the most widely used Domain Name System (DNS) software on the Internet.[2][3] On Unix-like operating systems it is the de facto standard.
+
+### /etc/nsswitch.conf
+
+### /etc/resolv.conf
+
+Trata-se de um arquivo de configuração que o resolver utiliza como base para realizar suas queries. Este é o arquivo que deve ser manipulado caso o usuário deseje utilizar servidores de DNS alternativos ao que a rede propõe no momento da conexão.
+
+Processos como o Networkmanager, dhcpcd e netctl são procesos que usualmente alteram o arquivo para facilitar a conexão.
+
+
+
+### /etc/hosts
 
 
 
