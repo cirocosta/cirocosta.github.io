@@ -4,6 +4,59 @@ author: Ciro S. Costa
 date: Aug 23, 2015
 ---
 
+// FROM Top Down Networking
+
+The idea behind the IP address system is the idea of providing a fixed-length, hierarchically structure identifier for nodes. In order to reconcile the router preferences (IP address) with humans preferences (mnemonic hostname identifiers) there's the need for a translation system: the Domain Name System (DNS), which is essentially a distributed database implemented in a hierarchy of DNS servers and an application-layer protocol (runs over UDP and uses the well-known port 53) that allows hosts to query the distributed database.
+
+It provides:
+-   hostname resolution
+-   host aliasing (cnames, etc)
+-   mail server aliasing
+-   load distribution
+
+For the general case, the process goes as follows:
+
+1. user machine runs the application which requires the resolution of a given hostname
+2. the browser extracts the authority from the url and passesthat to the DNS application
+3. the DNS client sends the query containing the hostname to a DNS server
+4. the DNS client eventually receives a reply (remember, it's over UDP), which includes the IP address for the hostname
+5. once the browser receives this IP address from DNS, initiates a TCP connection to the HTTP server.
+
+### Distributed
+
+Being distributed aspect of the application implies:
+-   no single point of failure
+-   capacity to deal with a big traffice volume.
+-   better locality
+-   maintenence without having to shutdown the service
+-   more complexity.
+
+
+### Hierarchical Database
+
+Fact: no single DNS server has all of the mappings for all of the hosts in the internet. These mappings are spread accross DNS servers which are divided basically in three classes of DNS servers:
+
+- root servers
+- top-level domain
+- authoritative
+
+
+```
+.                   // root DNS servers
+├── .com            // com TLD servers
+│   ├── yahoo.com     // authoritative servers on .com that has it
+│   └── amazon.com
+├── .org            // org TLD
+│   ├── mozilla.org
+│   └── wikipedia.org
+└── .edu            // edu TLD
+    └── mit.edu
+```
+
+
+
+// FROM Unix Network Programming
+
 DNS acts a a mapper between hostnames (FQDN or a simple name) and IP addresses.
 
 *Fully Qualified Domain Name (FQDN)*

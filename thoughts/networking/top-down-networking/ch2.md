@@ -111,17 +111,25 @@ With a persistent connection subsequent requests and responses between the same 
 ## FTP - File Transfer Protocol
 
 
-FTP uses two parallel TCP connections to transfer a file: a **control connection** and a **data connection**. FTP is said to send its control information **out-of-band**. Because HTTP sends header lines into the same TCP connection that caries the transferred file itself, it's said to be **in-band**. It keeps the control connection during the session but it opens and closes data connections as files are meant to be sent.
+FTP uses two parallel TCP connections to transfer a file: a **control connection** and a **data connection**. FTP is said to send its control information **out-of-band**. Because HTTP sends header lines into the same TCP connection that carries the transferred file itself, it's said to be **in-band**. It keeps the control connection during the session but it opens and closes data connections as files are meant to be sent.
 
-**control connection** is user for sending control infos (uid, password, commands ...). Generally, port 21;
+**control connection** is user for sending control infos (uid, password, commands ...). Generally, *port 21*;
 
-**data connection** send files. Generally port 20.
+**data connection** send files. Generally *port 20*.
 
-1. FTP client initiates a control TCP connection on port 21. The use provides the hostname of the remote host
+1. FTP *client initiates a control TCP connection on port 21*. The user provides the hostname of the remote host
 2. the user provides the user ID and PSWD, sending it over the TCP control connection. Now the server must maintain state about the user.
 3. after authorization, user issues commands. A file transfer command is sent.
-4. The server side initiates a TCP data connection to the client side (from port 20).
+4. The *server side initiates a TCP data connection to the client side (from port 20)*.
 5. FTP sends 1 file and closes the data connection. If during the session the user wants to transfer another file, another data connection is openned from the server.
+
+Existem dois modos de transferência de arquivo:
+-   ativo: o servidor conecta numa porta alta do cliente vindo da porta 20 (tcp) e inicia a transferencia de arquivos
+
+-   passivo: o cliente especifica uma porta alta e conecta em outra porta alta de servidor
+
+> (man ftp) "-p" uses passive mode for data transfers. Allows use of ftp in environments where firewall prevnts connections from the ouside world back to the client machine. (requires that the ftp server support the PASV command).
+
 
 ## EMAIL - STMP
 
