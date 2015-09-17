@@ -4,22 +4,41 @@ author: Ciro S. Costa
 date: Aug 23, 2015
 ---
 
-// TODO organizar
+// *TODO organizar*
 
 *DNS*
 
-:   (Domain Name System) trata-se do protocolo que trata de resolver nomes em endereços IP (função principal), isto é, reconciliar as preferencias to roteador (IP - tamanho fixo e bem definido) com as preferencias do usuário (nomes que fazem sentido à aplicação). Outras funções do DNS é oferecer o modo reverso (dado um IP resolver o nome), descobrir o servidor de email de um domínio.
+:   (Domain Name System) trata-se do protocolo que trata de resolver nomes em endereços IP (função principal), isto é, **reconciliar as preferencias to roteador** (IP - tamanho fixo e bem definido) **com as preferencias do usuário** (nomes que fazem sentido à aplicação). Outras funções do DNS é oferecer o modo reverso (dado um IP resolver o nome), descobrir o servidor de email de um domínio.
 
-    Trata-se de uma base de dados distribuída que mantém o registro desses nomes e endereços.
+    Trata-se de uma base de dados distribuída que mantém o registro desses nomes e endereços. Sua arquitetura se da de modo hierárquico com separação bem definida entre servidores, havendo poucos servidores na raíz.
 
-    O Protocolo se da na camada de aplicação, sendo usado indiretamente por quase todos os protocolos.
-
-Sua arquitetura se da de modo hierárquivo com separação entre servidores, Havendo poucos servidores na raíz.
+    O Protocolo se localiza na camada de aplicação, sendo usado indiretamente por quase todos os protocolos.
 
 
-Por padrão funciona na porta 53, UDP. Melhor correr o risco depedir novamente do que depender de 5 pacotes de TCP (abrir conexão e fechar a conexão). Muito melhor depender de um 'non-reliable'. No caso de alguma troca de bit, por exemplo (mantendo um ip válido) a camada de IP ainda consegue verificar se se trata de uma boa formação ou não (checsums).
+Por padrão o serviço é oferecido na porta 53, UDP. Melhor correr o risco depedir novamente do que depender de 5 pacotes de TCP (abrir conexão e fechar a conexão). Muito melhor depender de um 'non-reliable'. No caso de alguma troca de bit, por exemplo (mantendo um ip válido) a camada de IP ainda consegue verificar se se trata de uma boa formação ou não (checksums). Sabendo qual deve ser o formato da resposta é bastante simples para a aplicação verificar se há erros na transmissão ou não. Caso ocorra, basta retransmitir.
+
+```
+➜  ~  cat /etc/services | grep domain
+domain    53/tcp        # Domain Name Server
+domain    53/udp
+
+```
+
+// TODO em que caso usa tcp?
 
 ps: arquivo `/etc/hosts` trata-se de um arquivo simples de texto que trata de associar endereços de IP a hostnames, linha a linha (tanto para ipv4 quanto para ipv6).
+
+arquivo /etc/hosts:
+```
+IP_address canonical_hostname [aliases...]
+
+EXAMPLE
+       127.0.0.1       localhost
+       192.168.1.10    foo.mydomain.org       foo
+       192.168.1.13    bar.mydomain.org       bar
+       146.82.138.7    master.debian.org      master
+       209.237.226.90  www.opensource.org
+```
 
 Servidores DNS costumam ser muito visados por atacantes uma vez que os clientes confiam naquilo que é recebido.
 
@@ -147,5 +166,34 @@ Entries in the DNS are known as RRs (**resource records**). These RRs are of 4 t
 - **CNAME (canonical name)** is used to specify that a domain name is an alias for another domain. CNAME records must always point to another domain name, never directy to an IP-address.
 
 (tip: `dig` as a very useful tool for checking DNS lookups)
+
+
+### Cabeçalho
+
+Contém uma identificação de 16bits para consulta e resposta, além de um conjunto de flags, informando, por exemplo: se temos uma consulta ou resposta, tipo de query, se é uma resposta autoritativa,  recursão desejada, possibilidade de recursão ou não.
+
+```
+    16 bits           16 bits
+-----------------------------------
+|  identificação   |   flags      |
+-----------------------------------
+|  qtd de queries  | # de RR de   |   RR: registro no DNS ( mapeamento entre
+|                  |  resposta    |       o nome e endereço de IP )
+-----------------------------------
+|                  |              |
+-----------------------------------
+|              PERGUNTAS          |
+-----------------------------------
+|              RESPOSTAS          |
+-----------------------------------
+|                                 |
+-----------------------------------
+```
+
+verificar: recursão em DNS
+
+### Como registrar nomes ?
+
+Para fazer tal registro é necessário que seja feito o contato, primeiramente, com empresas que mantém registros DNS (registrars). É necessário passar informações pessoais e o endereço IP do servidos DNS daquele domínio. A verificação de tais registros pode ser feito através do comando `whois`, que busca um objeto na base de dados mundial que permite que tal identificação seja feita (seguindo o protocolo especificado em RFC3912).
 
 
