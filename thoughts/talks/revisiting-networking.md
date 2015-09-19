@@ -17,6 +17,9 @@ Dois são os rationales:
 
 De um tempo para cá têm-se falado muito sobre hTTP2 e acredito que isto se tornará um assunto recorrente nos meios de discussão e na comunidade open source em geral. Com esse talk e todo o material de referência que pretendo passar busco prover a base para que se tenha noção da motivação por trás desses desenvolvimentos e como os rumos que a web tem tomado nos levou à necessidade de algo como o HTTP2, que já nem futuro é. HTTP2 já é o presente (verificar números).
 
+(chrome e mozilla telemetry)
+
+
 2. Perf Culture
 
 ![slide - perf culture](../assets/talk/perf-culture.jpg)
