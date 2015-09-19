@@ -6,24 +6,52 @@ author:
 tags: [networking, web, talks]
 date: 16 Sep, 2015
 abstract: |
-  HTTP2 já está aí (ver estatísticas)
+  TODO
 ---
 
 # Rationale
 
-Assim como há bastante tempo atrás o ponto que eu buscava fixar em uma palestra era o de que é importante se desenvolver uma cultura de testes para o desenvolvimento web (à época ficavam mais conhecidas as bibliotecas QUnit, mocha, karma, etc), eu acredito que para perf, assim como inclusive acessibilidade, o mesmo vale: devemos carregar desde o início do desenvolvimento de nossas aplicações os princípios para que no final consigamos ter um bom resultado `by default`.
+Dois são os rationales:
+
+1. HTTP2 está aí
+
+De um tempo para cá têm-se falado muito sobre hTTP2 e acredito que isto se tornará um assunto recorrente nos meios de discussão e na comunidade open source em geral. Com esse talk e todo o material de referência que pretendo passar busco prover a base para que se tenha noção da motivação por trás desses desenvolvimentos e como os rumos que a web tem tomado nos levou à necessidade de algo como o HTTP2, que já nem futuro é. HTTP2 já é o presente (verificar números).
+
+2. Perf Culture
+
+![slide - perf culture](../assets/talk/perf-culture.jpg)
+
+Assim como há bastante tempo atrás o ponto que eu buscava fixar em uma palestra era o de que é importante se desenvolver uma cultura de testes no contexto de desenvolvimento web (à época ficavam mais conhecidas as bibliotecas QUnit, mocha, karma, etc), eu acredito que para perf, assim como inclusive acessibilidade, o mesmo vale: devemos carregar desde o início do desenvolvimento de nossas aplicações os princípios para que no final consigamos ter um bom resultado `by default`.
 
 *GANCHO*: Para isso precisamos voltar às raízes e entender os conceitos que estão por trás. Somente conhecendo esse sistema complexo que lidamos no nosso dia-a-dia conseguimos então identificar os motivos por trás das melhorias que têm sido apresentadas ultimamente com a introdução do HTTP2 e como alguns dos princípios que até então utilizávamos como best practices passam a cair por terra.
 
 ## As bases da Internet
 
-// TPN 1chp
+![slide - O que é a internet?](../assets/talk/o-que-é-a-internet?.jpg)
 
-**Network Topology**
+Começo então com uma pergunta muito simples: o que é essa tal de internet?
+Até então o que bastava para um frontend era:
 
-:   is the arrangement of the various elements of a computer network. It's the **shape** of it [ciro].
+![slide - Definição frontend de internet]()
+- infraestrutura de fornecimento de serviços a aplicações distribuídas, cabendo ao programador apenas ter que aprender a invocar os serviços.
 
-- nós burros e nós inteligentes
+Simples: algo que contruo "em cima" e apenas espero que funcione.
+
+Parece uma definição simplista mas ela resume muito bem a ideia de como se da o desenvolvimento de aplicações por meio de camadas de abstração. Quando analisamos por cima a topologia da rede, i.e, sua forma, verificamos a seguinte formação:
+
+![separação borda e centro da rede](../assets/revisiting-13123/01-sepborda-e-centro.jpg)
+
+### Borda
+
+aplicações e hospedeiros. Executam programas de aplicação, como email, websites, etc.
+
+É onde vive a camada do modelo cliente-servidor que acredito que todos aqui devem conhecer: cliente inicia um pedido, servidor processa e eventualmente responde; e também outros modelos, como p2p ou outros híbridos, que usam tanto o client-servidor quanto p2p.
+
+### Centro
+
+roteadores e redes de redes
+
+(entre os dois: redes de acesso).
 
 
 *GANCHO*: Para tornar a visualização disto mais fácil e possível de demonstrar, podemos então definir uma topologia simplificada da rede
@@ -75,17 +103,17 @@ Três são os livros que eu recomendo que sejam lidos sobre o assunto, com eles 
 
 // TODO arrumar os nomes
 
-1. High Performance Browser Networking, Illia Grigorick
+1. *High Performance Browser Networking, Illya Grigorick*
 
 O livro do Illya é **extremamente importante** aos devs frontend pois mais do que explicar com bastante detalhe esse conteúdo que passei, ele inclui diversas dicas nos final dos capítulos, deixando bastante claro otimizações que devem ser feitas tanto no lado do servidor qunato no lado do client. É um must-have que na minha opinião todo dev que se relacione com a web deve ter contato uma vez pelo menos.
 
-(extra): parte sobre http2 atualizada e disponível gratuitamente
+(extra): parte sobre http2 atualizada e disponível gratuitamente: http://hpbn.co/http2
 
-2. Networking Top Down Approach, Khurhsko
+2. *Computer Networking  - Top Down Approach, Kurose & Ross*
 
 Esse se trata de um livro introdutório de redes que alguns cursos utilizam como base, como por exemplo no curso de redes que fiz, acredito que seja uma boa referência para alguém que está com mais curiosidade sobre camadas mais abaixo que aplicação e transporte, ou busque algum detalhamento maior das coisas em geral.
 
-3. Unix Network Programming, Stevens
+3. *Unix Network Programming - The Sockets Networking API, W. Richard Stevens, Fenner and Rudoff*
 
 Foca bastante em desenvolvimento em C, é uma boa referência para quem quiser se arriscar a mexer com socket diretamente, tendo todo o controle low level com chamadas de sistema e tal, acho excelente caso queira de fato entender quais são as dificuldades por trás de um servidor ou cliente que realize comunicação na web. Não recomendo a frontends que não tenham experiência mais profunda com Unix e baixo nível.
 
@@ -104,6 +132,8 @@ github: github.com/cirocosta
 
 - analogia: máquinas como complexos de logística
 - analogia: sockets como as portas do complexo
+- falar sobre problemas de facilmente introduzer cache invalidation com o uso constante de concatenação
+- falta de header compression: muito overhead de headers.
 - browser inside a mininet host: https://mailman.stanford.edu/pipermail/openflow-discuss/2013-April/004493.html
 - server inside mininet: https://mailman.stanford.edu/pipermail/mininet-discuss/2014-September/005053.html
 - introduction to mininet: https://www.youtube.com/watch?v=jmlgXaocwiE
