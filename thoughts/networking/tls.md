@@ -41,15 +41,19 @@ More than the normal SYN, SYN ACK, ACK flow from TCP we must add another layer o
 
 ## Handshakes
 
-1. TCP Handshake
-2. client sends specs in plain text such as TLS version, ciphersuites, etc
-3. server picks tls version, decides other things, attaches its certificate and sends that info back to the client
+Before anything, the encrypted tunnel must be negotiated: both must agree on version, ciphersuite and verify certificates if necessary.
+
+
+1. TCP Handshake (1 RTT)
+2. client sends specs in plain text such as TLS version, ciphersuites, through the reliable transport (tcp) etc
+3. server picks tls version, decides other things, attaches its certificate and sends that info back to the client (might also request the client's certifcate and parameters for other TLS extensions)
 4. if client is happy with the certificate and others, generates a symmetric key, encrypts it with the server's public key and tells the server to switch to encrypted communication.
   4.1 From know on, everything is encrypted
-5. the server decrypts the symmetric key sent by the clients, checks the integrity (through MAC) and returns an encrypted "finished" message back to the client
+5. the server decrypts the symmetric key sent by the client, checks the integrity (through MAC) and returns an encrypted "finished" message back to the client
 6. The client decrypts the message with the symmetric key generated earlier, verifies the MAC and if everything is OK then the tunnel is established and ready to run.
 
-Notice that more RTT (two at least) are required.
+Notice that more RTT (two at least) are required and that even though we start (session setup of TLS tunnel) with public (assymetric) encrpytion, during the further requests there's only symmetric encryption.
+
 
 ## New protocols through data obfuscation
 

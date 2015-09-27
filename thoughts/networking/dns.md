@@ -197,3 +197,13 @@ verificar: recursão em DNS
 Para fazer tal registro é necessário que seja feito o contato, primeiramente, com empresas que mantém registros DNS (registrars). É necessário passar informações pessoais e o endereço IP do servidos DNS daquele domínio. A verificação de tais registros pode ser feito através do comando `whois`, que busca um objeto na base de dados mundial que permite que tal identificação seja feita (seguindo o protocolo especificado em RFC3912).
 
 
+### Verificando a resolução
+
+Podemos utilizar o `dig` (como dito antes). Adicionando a opção de `+trace` conseguimos então verificar como se da a resolução nos diversos servidores de DNS (root, autoritários, etc).
+
+### API (C)
+
+`gethostbyname`: realiza uma chamada de sistema que então resolve o nome desejado (seja por cache ou de fato realizando a requisição). Vale lembrar que esta função está deprecada (ver http://blog.erratasec.com/2015/01/you-shouldnt-be-using-gethostbyname.html). Com `getaddrinfo` conseguimos de modo agnóstico de IP realizar a resolução. Mais do que isso trata-se também de uma vulnerabilidade:
+
+> GHOST / CVE-2015-0235 is a ‘buffer overflow’ vulnerability affecting the gethostbyname() function calls in the glibc library. An attacker could exploit this vulnerability to execute code on a remote host by supplying an invalid DNS response.
+
