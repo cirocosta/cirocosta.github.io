@@ -65,15 +65,23 @@ note: no dest and src addr here. The transport
 
 ### Connectionless Multiplexing and Demultiplexing
 
+Differently from the connection-oriented case where sockets are identified by a 4-tuple, in the case of a connectionless there's the need of only a 2-tuple (dest-IP and dest-PORT). When the host receives the UDP segment it just has to verify the number of the port specified in the tranport segment and then redirect the segment to the process that's bound to that port.
+
+Note that this doesn't mean the the segment won't or can't have `source` fields as well; they actually have (and are necessary if the receiver wants to send back another message). What matters it that two packages with different source fields will be delivered to the same socket.
+
+
+### Connection-Oriented Multiplex and Demultiplex
+
+TCP socket is identified by a 4-tuple. When a TCP segment arrives from the network to a host, the host uses all four values to direct (demultiplex) the segment to the appropriate socket. Two arriving sockets with different source IP addr or source port numbers will be directed to different sockets.
 
 
 ## UDP
 
-**UDP** provides only two services: process-to-process data delivery and error checking (through a header field); UDP remains an unrealiable service.
+**UDP** provides only two services: *process-to-process data delivery* and *error checking* (through a header field); UDP remains as an unrealiable service.
 
-UDP sockets are fully identified by a **two-tuple**consisting of a **destination IP address and a destination port number**.
+UDP sockets are fully identified by a **two-tuple** consisting of a **destination IP address and a destination port number**.
 
-This is important as if two segments have different source ip addr and/or port numbers, then the two segments will be directed to the same destination process via the same destination socket.
+This is important because if two segments have different source ip addr and/or port numbers, then the two segments will be directed to the same destination process via the same destination socket (see [#multiplexing-and-demultiplexing](#multiplexing).
 
 As with UDP there's no handshaking between sending and receiving, and no connection keeping established, it is said to be **connectionless**.
 
@@ -86,6 +94,8 @@ Applications might use UDP because:
 Note that because there's no congestion control the use of UDP is somewhat controversial.
 
 ps.: DNS runs over UDP not just for the RTT, but also because it avoids TCP's the congestion-control mechanism and can probably have more success in a stressed state of the network, while a TCP connection would be stopped with the congestion control mechanism.
+
+ps.: UDP is also used w/ SNMP (Simple Network Management Protocol), an application-layer protocol for managing devices on IP networks. The rationale is that by using UDP it aims to be very performant and minimize the additional load on a potentially troubles network. In such case TCP would probably not allow the request to go immediately because of its congestion control mechanism.
 
 
 ```
@@ -103,6 +113,25 @@ checksum: used by receiving host to check whether
 ```
 
 The checksum is calculated in a very simple manner: sum all of the 16bit words in the segment, then calculate the 1's-segment. This is the checksum. At the receiver side, sum all of the received to the checksum. The result must be `1111111111111111`. Otherwise, an error happened.
+
+# Reliable Data Transfer
+
+No transfered data bits are corrupted or lost and all are delivered in the order in which they were sent. Such abstraction must be implemented by the **reliable data transfer protocol** on top of an unrekiable layer.
+
+## rdt1.0 - A rdt protocol over a reliable channel
+
+// TODO
+
+
+## rdt2.0 - A rdt protocol over a channel with bit errors
+
+ARQ: Automatic Repeat reQuest protocols.
+
+Requires:
+-   error detection
+-   receiver feedback
+-   retransmissio
+
 
 ## TCP
 
