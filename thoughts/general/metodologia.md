@@ -97,12 +97,53 @@ Respostas a tais perguntas nos levam à definição do enfoque da pesquisa:
 
     Fundamenta-se a partir do **método hipotético-dedutivo**.
 
+Característica gerais:
+
+- delineamento de teorias e construção de hipóteses
+- submissão ads hipóteses à prova
+- resultados devem sustentar as hipóteses: evidências a favor
+- resultados podem refutar as hipóteses: busca de novas hipóteses
+
+Quanto mais pesquisas confirmam uma teroria, mais força ela possui. Quanto mais pesquisas refutam, maior a chance de ser descartada.
+
+```
+ESQUEMA GERAL:
+
+ideia ->
+-> delineamento/refinamento ->   // busca por questões
+                                 // específicas
+-> revisão de literatura ->      // base para a construção
+                                 // do marco teórico (i.e,
+                                 // a teoria que guiará o
+                                 // estudo).
+-> elaboração de marco teórico ->
+-> hipóteses ->                  // proposições a verificar
+-> plano/projeto ->
+-> amostra ->
+-> coleta e análise de dados ->
+    //  uso de medição numérica e uso de técicas estatísticas
+    //  estabelecer padrões de comportamente e relação entre
+    //  as variáveis
+-> interpretação dos resultados ->
+    //  resultados são interpretados à luz das predições
+    //  iniciais (hipóteses) e estudos prévios (teoria)
+-> relatório e apresentação dos resultados
+```
+
 
 *Enfoque Qualitativo*
 
 :   emprega coleta de dados **sem medição numérica** para descobrir ou aperfeiçoar questões da pesquisa. **Pode ou não provar hipóteses** em seu processo de interpretação. Pode ser usado para descobrir e refinar as hipóteses de pesquisa. **Ênfase na compreensão do processo**.
 
     Seu ponto de partida é a de que **existe uma realidade a ser descoberta**. Tem como premissa que **a realidade do fenômeno social é a mente**, sendo construída pelos indivídios que dão significados ao fenômeno social. Seus dados provém da **linguagem natural**. Em geral, tem como finalidade **entender o contexto e/ou o ponto de vista do ator social**.
+
+Utilizada para descrobrir e refinar a questõa de pesquisa. Ao invés de começar com uma teoria e verificar se esta é apoiada pelos fatos, o pesquisados começa o precesso pelo exame dos fatos e desenvolve uma teoria consistente com o que está observando que ocorre (método indutivo).
+
+Frequentemente baseia-se em métodos de coleta de dados sem medições numéricas
+
+Questões e hipóteses de pesquisa surgem como parte do processo de investigação (tem-se um processo mais flexível, já que busca-se reconstruir a realidaede vista pelos atores)
+
+// TERMINAR
 
 
 *Híbrido (multimodal / métodos misturados)*
