@@ -29,4 +29,4 @@ Then the *usage*:
 ## Availability
 
 - Linux 3.7+, nginx and HAProxy.
-
+https://bradleyf.id.au/nix/shaving-your-rtt-wth-tfo/
