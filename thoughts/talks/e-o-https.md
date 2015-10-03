@@ -1,30 +1,66 @@
 ---
 title: E o HTTPS?
-author: Ciro S. Costa
+author:
+-   name: Ciro S. Costa
+    affiliation: Universidade de São Paulo
+tags: [networking, frontend, crypto]
 date: 03 Out, 2015
+abstract: |
+  Ainda há motivos para não se utilizar HTTPS em um website?
+  Há muito tempo não. Muita coisa mudou desde sua concepção
+  e já é realidade que toda página na web deve utilizar.
+  HTTP2 chegou para ficar e sempre fica a ressalva: HTTPS
+  é requisito para HTTP2. Essa palestra busca apresentar os
+  conceitos por trás da tecnologia, denotar seus usos e expor
+  algumas novas ferramentas que já estão aí para ajudar o
+  desenvolvedor frontend a utilizar o protocolo.
 ---
+
+#CHANGELOG
+
+01 Out -    Concepção
+02 Out -    Delimitação de tópicos e marco teórico (crypto + tls)
+
+#TODO
+
+-   Estabelecer gancho entre os tópicos
+-   Discorrer mais sobre:
+
+-----
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Objetivo](#objetivo)
-- [Rationale](#rationale)
-- [Conceitos](#conceitos)
-  - [Autenticação](#autentica%C3%A7%C3%A3o)
-  - [Integridade dos Dados](#integridade-dos-dados)
-  - [Criptografia](#criptografia)
-  - ["Secrecy"](#secrecy)
-- [Camadas de rede](#camadas-de-rede)
+- [Objetivos a Alcançar](#objetivos-a-alcan%C3%A7ar)
+- [E o HTTPS ?](#e-o-https-)
+  - [All the communication should be secure by default"](#all-the-communication-should-be-secure-by-default)
+  - [Back in the Old Days](#back-in-the-old-days)
+  - [E a Internet?](#e-a-internet)
   - [Conexão](#conex%C3%A3o)
   - [RTT](#rtt)
   - [O que é HTTPS](#o-que-%C3%A9-https)
+  - [Portas](#portas)
+  - [Conexão Segura](#conex%C3%A3o-segura)
+    - [Autenticação](#autentica%C3%A7%C3%A3o)
+  - [Integridade dos Dados](#integridade-dos-dados)
+  - [Criptografia](#criptografia)
+  - ["Secrecy"](#secrecy)
+    - [Diffie Hellman (1976)](#diffie-hellman-1976)
   - [Criptografia Simétrica](#criptografia-sim%C3%A9trica)
   - [Criptografia Assimétrica](#criptografia-assim%C3%A9trica)
+  - [Web Of trust](#web-of-trust)
+  - [Checagem de Integridade](#checagem-de-integridade)
   - [HTTP](#http)
   - [HTTPS](#https)
   - [Antes SSL](#antes-ssl)
   - [TLS](#tls)
+    - [E a negociação?](#e-a-negocia%C3%A7%C3%A3o)
+    - [Mas porque HTTP2 requer HTTPS?](#mas-porque-http2-requer-https)
+  - [Chaves](#chaves)
+    - [Como é uma chave e certificado?](#como-%C3%A9-uma-chave-e-certificado)
+  - [Certificados e Cadeia de Confiança](#certificados-e-cadeia-de-confian%C3%A7a)
+    - [Como é um certificado](#como-%C3%A9-um-certificado)
   - [HTTPS Everywhere](#https-everywhere)
   - [Let's Encrypt](#lets-encrypt)
   - [Save Crypto](#save-crypto)
@@ -38,20 +74,74 @@ date: 03 Out, 2015
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Objetivo
+#Objetivos a Alcançar
 
--   Tenha alguma ideia dos benefícios do HTTPs
--   Aqueles presentes que mantenham algum website façam sua parte e configurem seus servidores e clientes para utilizar HTTPS
+Em ordem crescente:
 
-# Back in the Old Days
+-   Que o desenvolvedor frontend compreenda alguns dos benefícios do HTTPs
+-   Que assimile os 3 objetivos do TLS
+-   Que Aqueles presentes que mantenham algum website façam sua parte e configurem seus servidores e clientes para utilizar HTTPS
 
-Netscape Navigator, Júlio 1994 (sem release públic): SSL como meio de prover comunicação segura na internet. Busca: privacidade nas mensagens, integridade e autenticação mútua.
+#E o HTTPS ?
+
+> "TLS has exactly one performance problem: it is not used widely enough."
+
+É bastante comum (OH) escutar comentários que citem problemas de performance com TLS. A questão é, será que isso ainda é um problema? Se for, é grande problema?
+
+Lógicamente haverá um custo. Não há 'free-lunch'. Mais operações terão que ser realizadas por conexão, mas no fim, eu particularmente acredito que vale a pena, considerando que qualquer sniffer poderia ver isto:
+
+[IMAGEM TRAFEGO WIRESHARK](#todo)
+
+Todo o seu conteúdo passando pela mão dele apenas vasculhando o que se passa na rede.
+
+## All the communication should be secure by default"
+
+Cada vez mais há pontos públicos de WiFi em cidades grandes, principalmente em pontos comerciais que buscam tal disposição como forma de atrair clientela. Apesar de conveniente, ao mesmo tempo trata-se de um grande atrativo para agentes maliciosos, que buscam fazer como na imagem.
+
+Não apenas banking e comércio, mas todos os meios de comunicação devem ser protegidos. Por mais que visualizar o conteúdo de apenas um site pode parecer não ser relevante, possivelmente por conta de um conteudo não relevante à primeira vista, ao se olhar o agregado de todos os métadados pode-se ter com bastante clareza noção das intenções de um usuário.
+
+// TODO cookie sniffing!
+
+Independente de qual seja o foco do site ou o conteúdo o dono do site não deve ser quem decide se o conteúdo é sensitivo àquela pessoa ou não. Fica à cargo do desenvolvedor tomar conta da privacidade do usuário.
+
+É extremamente importante que você também proteja o seu site, não se quer que participantes inesperados o "estraguem".
+
+Uma visita a um website por si só pode não ser de grande interesse para um atacante. O agregado revela muito mais. Você não quer contribuir para um ataque.
+
+## Back in the Old Days
+
+Netscape Navigator, Júlio 1994 (sem release publico): SSL como meio de prover comunicação segura na internet. Busca: privacidade nas mensagens, integridade e autenticação mútua.
 
 1999: RFC 2246  (TLS 1.0)
 2006: RFC 2246  (TLS 1.1)
 2008: RFC 2246  (TLS 1.2)
 
-# Portas
+// TODO mais sobre historia e motivação por tras da concepção do SSL
+
+
+## E a Internet?
+
+Até algum tempo para o desenvolvedor frontend bastava uma definição:
+
+- infraestrutura de fornecimento de serviços a aplicações distribuídas, cabendo ao programador apenas ter que aprender a invocar os serviços.
+
+Simples: algo que contruo "em cima" e apenas espero que funcione.
+
+```
+aplicação |___HTTP = \   HTTPS!
+sessão    |   TLS  = /
+transporte
+rede
+físico
+```
+
+## Conexão
+
+## RTT
+
+## O que é HTTPS
+
+## Portas
 
 Existe um registro internacional que mapeia as 'portas bem conhecidas'. Mais de 60 portas são especificadas para o uso de SSL/TLS, ex:
 
@@ -69,26 +159,14 @@ pop3s   995/tcp       # POP-3 over SSL
 suucp   4031/tcp      # UUCP over SSL
 ```
 
-# Rationale
 
-> TLS has exactly one performance problem: it is not used widely enough.
-> Everything else can be optimized.
-
-" All the communication should be secure by default "
-
-não apenas banking e comércio, mas todos os meios de comunicação. Por mais que visualizando o conteúdo de apenas um site pareça que não seja um conteúdo relevante, ao olhar o agregado de todos os métadados pode-se ter com bastante clareza noção das intenções de um usuário.
-
-Independente de qual seja o foco do site ou o conteúdo o dono do site não deve ser quem decide se o conteúdo é sensitivo àquela pessoa ou não. Fica à cargo do desenvolvedor tomar conta da privacidade do usuário.
-
-É extremamente importante que você também proteja o seu site, não se quer que participantes inesperados o "estraguem".
-
-Uma visita a um website por si só pode não ser de grande interesse para um atacante. O agregado revela muito mais. Você não quer contribuir para um ataque.
-
-# Conceitos
+## Conexão Segura
 
 Os três conceitos são muito importantes (devem existir em conjunto). Qual é o ponto de termos uma conexão criptografada com um atacante?
 
-## Autenticação
+
+### Autenticação
+
 "Estou de fato falando com quem o outro se diz ser?"
 Garante que a conexão está sendo feita diretamente com o site e não com algum atacante que está segurou a conexão fingindo ser o servidor original.
 
@@ -102,27 +180,6 @@ Será que alguém alterou os dados?
 Alguém pode ver minha conversa?
 
 -- mostrar exemplo de pacote criptografado no wireshark
-
-
-
-
-
-# Camadas de rede
-
-```
-aplicação |___HTTP = \   HTTPS!
-sessão    |   TLS  = /
-transporte
-rede
-físico
-```
-
-## Conexão
-
-## RTT
-
-
-## O que é HTTPS
 
 
 ## "Secrecy"
@@ -227,9 +284,9 @@ Melhor dos mundos: ambos os métodos são utilizados.
 
 ## Web Of trust
 
-
-
 Six degrees of separation
+
+e Ideia do PGP
 
 ## Checagem de Integridade
 
@@ -251,23 +308,65 @@ Ao contrário de qualquer assinatura, é uma com 3 propriedades muito particular
 
 ## TLS
 
+TLS (Transport Layer Security) was implemented at the application layer, directly on top of TCP - a reliable transport. By doing this it enabled protocols above it (http, email, im, etc) to operate unchanged while providing communication security.  Nowadays it has been adapted to run over datagram protocols such as UDP (see Datagram Transport Layer Secutiry - DTLS - protocol) as well.
+
+Garante criptografia, autenticação e integridade de dados by establishing a cryptographically secure data channel with the peers agreeing on which ciphersuites will be used and the keys used to encrypt/decrypt the data. They also have to agree on the message framing mechanism which is responsible for signing each message with a *message authentication code* (`MAC`, kind of a checksum) to ensure both integrity and authenticity.
+
+
+### E a negociação?
+
+1. TCP Handshake (1 RTT)
+2. client sends specs in plain text such as TLS version, ciphersuites, through the reliable transport (tcp) etc
+3. server picks tls version, decides other things, attaches its certificate and sends that info back to the client (might also request the client's certifcate and parameters for other TLS extensions)
+4. if client is happy with the certificate and others, generates a symmetric key, encrypts it with the server's public key and tells the server to switch to encrypted communication.
+  4.1 From know on, everything is encrypted
+5. the server decrypts the symmetric key sent by the client, checks the integrity (through MAC) and returns an encrypted "finished" message back to the client
+6. The client decrypts the message with the symmetric key generated earlier, verifies the MAC and if everything is OK then the tunnel is established and ready to run.
+
+Notice that more RTT (two at least) are required and that even though we start (session setup of TLS tunnel) with public (assymetric) encrpytion, during the further requests there's only symmetric encryption.
+
+### Mas porque HTTP2 requer HTTPS?
+
+Because TLS obfuscates data we can deliver any kind of protocols on the web without needing to worry about proxies and other intermediaries as these parties can't know about the data that is passing through them. Another great feature that TLS brings is the fact that we can rely on the 443 port and don't need to configure all clients to search for another port.
+
+In the protocol negotiation side TLS helps with one more thing: ALPN (*Application Layer Protocol Negotiation*). This lets us specify the protocol during the TLS handshake phase (when we had already established a reliable transport throguh TCP - the client specifies which protocols it supports and the server then selects and confirms the protocol; or drops the connection). Note that we could use the new HTTP2.0 Upgrade mechanism in a non-secure channel but that would consume the same amount of RTT as in the TLS way without Upgrade.
+
+
 ## Chaves
 
-### Como é uma chave?
+### Como é uma chave e certificado?
 
-## Certificados
+[cert](#todo)
+[priv](#todo)
+
+## Certificados e Cadeia de Confiança
+
+The idea of a chain of trust is about establishing a way of determining whether someone who i trust trusts in another party which i don't know (but my friend knows). In the public key analogy my friend knows the other if my friend signs the other guy's messages with its public key. This is the idea of transitive trust. To determine the browser's chain of trust there are 3 ways:
+
+- Manually Specified Certificates
+- Certificate Authorities: a CA is a trusted third party that is trusted by both the subject (owner) of the certificate and the party relying upon the certificate
+- The Browser and OS: predefined list of trusted CAs
+
+Checking a certificate status if just a matter of querying OCSP (*Online Certificate Status Protocol*) or checking the CLR (*Certificate Revocation List*). Maintaining the list and an endpoint for OCSP (realtime) is a CA's duty. It must ensure that the service is up and globally available at all times. Because the client must block on OCSP requests before proceeding with the navigation, this might affect the latency.
+
 
 ### Como é um certificado
 
 ## HTTPS Everywhere
 
+https://addons.mozilla.org/pt-br/firefox/addon/https-everywhere/
+
 ## Let's Encrypt
+
+https://letsencrypt.org/2015/09/14/our-first-cert.html
 
 ## Save Crypto
 
+http://savecrypto.org/
+
 ## E Vai Melhorar!
 
-- TFO
+- TFO (tcp fast open)
 
 ## TODO para sysadmins
 
