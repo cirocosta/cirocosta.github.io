@@ -18,15 +18,22 @@ abstract: |
 
 -   01 Out -    Concepção
 -   02 Out -    Delimitação de tópicos e marco teórico (crypto + tls)
--   04 Out -    Introdução
+-   04 Out -    Atualiza Introdução (+coeso, melhores ganchos, uso de historia)
+-   04 Out -    Ampliação marco teórico e rationale.
 
 #TODO
 
 -   Estabelecer gancho entre os tópicos
 -   Estabelecer tópicos a ser abordados
 -   Estimar tempo de cada tópico
+-   Reduzir tópicos
+-   Separar o exemplo de TLS com C++ do `ttt`: [https://github.com/cirocosta/ttt/blob/net/src/tls_connection.cc](https://github.com/cirocosta/ttt/blob/net/src/tls_connection.cc)
+-   Recriar os ambientes com Vagrant para compartilhar depois
+
 
 # Rationale
+
+Muito em breve HTTPS será o 'dafault' na web. Assim como há algum tempo muito tem-se lutado por acessibilidade (tópico recorrente em encontros de frontend), cada vez mais a luta por privacidade está em voga. Com o avanço cada vez maior das aplicações na web mais cresce a responsabilidade que o desenvolvedor deve ter com relação aos seus usuários. Isto inclui diretamente o programador frontend que, produzindo toda a frente da aplicação, é diretamente responsável pelos bytes entregues ao usuário. Assim como é necessário o entendimento da causa por trás da luta por acessibilidade e como entregar isso a seus usuários, é extremamente importante que se entenda como funciona o HTTPS, o protocolo que tanto garante a privacidade dos usuários como também resguarda os dados transmitidos e assegura a autenticidade destes.
 
 ## Objetivos a Alcançar
 
@@ -44,14 +51,16 @@ Em ordem crescente:
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Objetivos a Alcançar](#objetivos-a-alcan%C3%A7ar)
+
 - [E o HTTPS ?](#e-o-https-)
-  - [All the communication should be secure by default"](#all-the-communication-should-be-secure-by-default)
+  - [Intro](#intro)
+  - ["All the communication should be secure by default"](#all-the-communication-should-be-secure-by-default)
   - [Back in the Old Days](#back-in-the-old-days)
-  - [E a Internet?](#e-a-internet)
+  - [HTTP && HTTPS](#http-&&-https)
+    - [Camadas](#camadas)
   - [Conexão](#conex%C3%A3o)
-  - [RTT](#rtt)
-  - [O que é HTTPS](#o-que-%C3%A9-https)
+    - [Conexão com TLS](#conex%C3%A3o-com-tls)
+    - [RTT](#rtt)
   - [Portas](#portas)
   - [Conexão Segura](#conex%C3%A3o-segura)
     - [Autenticação](#autentica%C3%A7%C3%A3o)
@@ -103,11 +112,15 @@ Começar com uma história seguindo os `Padrões De Exemplos De Criptografia^{TM
 > História: 'Alice' e 'Bob' conspiram contra seus países. 'Eve' escuta tudo. Existe esse meio de comunicação mundialmente conhecido chamado Internet, que possui um protocolo de comunicação entre aplicações, também muito bem conhecido, o HTTP.
 
 ```SLIDE
-             EVE
-              |
-              |
-Alice   --------------  BOB
-        (meio inseguro)
+                    (intercepta msgs)
+                           EVE
+                            |
+                            |
+Alice   --------------  (mensagem) -------> BOB
+              |                         |
+              ---------------------------
+                            |
+                     (meio inseguro)
 ```
 
 > Historia: O HTTP sempre funcionou muito bem para Alice e Bob. Trocavam mensagens sem problemas, até que começaram a conspirar sobre seus países. A partir de agora Alice e Bob precisavam ser cuidadosos, afinal Eve era capaz de ver tudo
@@ -140,75 +153,136 @@ Independente de qual seja o foco do site ou o conteúdo o dono do site não deve
 
 É extremamente importante que você também proteja o seu site, não se quer que participantes inesperados o "estraguem".
 
-Uma visita a um website por si só pode não ser de grande interesse para um atacante. O agregado revela muito mais. Você não quer contribuir para um ataque.
+Uma visita a um website por si só pode não ser de grande interesse para um atacante. O agregado revela muito mais. Você não quer contribuir para um ataque. Com TLS temos a possibilidade de cuidar disso.
 
-===> GANCHO: Isto é novo?
+===> GANCHO: Mas o que é TLS? Achei que fosse SSL!
+
 
 ## Back in the Old Days
 
-> "SSL/TLS não é novo. SSL é igual a TLS?"
+> "SSL ... TLS ... O que?"
 
-Netscape Navigator, Júlio 1994 (sem release publico): SSL como meio de prover comunicação segura na internet - focado em transações de comércio. Busca: privacidade nas mensagens, integridade e autenticação mútua.
+Netscape Navigator, Julho 1994 (sem release publico): SSL como meio de prover comunicação segura na internet - focado em transações de comércio. Busca: privacidade nas mensagens, integridade e autenticação mútua.
 
 SSL/TLS como protocolo para comunicação segura.
 
 1999: RFC 2246  (TLS 1.0)
 2006: RFC 2246  (TLS 1.1)
-2008: RFC 2246  (TLS 1.2)
+2008: [RFC 2246](https://www.ietf.org/rfc/rfc5246.txt)  (TLS 1.2)
 
 // TODO melhorar
 //      buscar + historia e motivo da mudança de nome
 
-====> Ok, e como o TLS se relaciona com o HTTP?
+Com o surgimento do SSL/TLS agora qualquer tipo de comunicação pode utilizar dos benefícios do protocolo para então se comunicarem (não necessariamente HTTP).
+
+> Historia: Agora Alice
+
+```SLIDE
+                             (intercepta msgs) ==> intercepta lixo!
+                                    EVE
+                                     |
+                                     |
+Alice   --==(encrypt(msg))=====(1h1029LIXO812h)==========(decrypt(msg))==>  BOB
+            |                                                           |
+            -------------------------------------------------------------
+                                        |
+                                 (meio inseguro)
+```
+
+[EXEMPLO WIRESHARK - Intercepta Lixo](#todo)
+
+Sendo o TLS de uso genérico, podemos usar tal tecnologia de modo integrado com o protocolo de comunicação que Alice e Bob utilizam!
+
+====> GANCHO: "When HTTP meets TLS!"
 
 ## HTTP && HTTPS
 
-> "Em que parte esse TLS entra?"
+> "Como fazemos o HTTP rodar em cima do TLS?"
 
-Até algum tempo para o desenvolvedor frontend bastava uma definição:
+// TODO (melhorar o gancho aqui ... importante relacionar o conceito de camadas)
+Até algum tempo, para o desenvolvedor frontend bastava uma definição do conceito de Internet:
 
 - infraestrutura de fornecimento de serviços a aplicações distribuídas, cabendo ao programador apenas ter que aprender a invocar os serviços.
 
 Simples: algo que contruo "em cima" e apenas espero que funcione.
 
-```
-aplicação |___HTTP = \   HTTPS!
-sessão    |   TLS  = /
-transporte
-rede
-físico
-```
+HTTPS busca não alterar essa ideia. Configurada a parte do TLS, basta entender como HTTP por cima de uma camada de TLS que funciona como um tunel que protege a conexão.
 
-## RTT
+[RFC 2818 - HTTP Over TLS](https://tools.ietf.org/html/rfc2818)
+> SSL, and its successor TLS [RFC2246] were designed to provide channel-oriented security."
 
-> "Como mensuramos tempo na internet?"
+===> GANCHO: Isto é possível por causa da arquitetura da internet
+
+### Camadas
+
+> Em redes tudo é feito sobre camadas
+
+```
+    MSG IN                                     MSG OUT
+ .
+/ \   aplicação                   |   aplicacao
+ |    sessão                      |   sessão
+ |    transporte                  |   transporte
+ |    rede                        |   rede
+ |    físico                     \|/  fisico
+```
 
 
 ## Conexão
 
 > "O que é uma conexão?"
 
+(obs: deixar claro que estamos falando sempre de TCP nos exemplos - afinal, UDP é connectionless .. não faria sentido)
+
+// TODO: HANDSHAKE DE TCP
+
+Conexão identificada por 4-tupla (SRC ADDR, SRC PORT, DEST ADDR, DEST PORT)
+
 ### Conexão com TLS
 
 > "O que muda quando adicionamos aquela camada?"
 
+// TODO: HANDSHAKE DE TCP COM TLS (negociação de ciphersuite, etc)
+
+
+### RTT
+
+```SLIDE
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=55 time=46.4 ms
+
++ WIRESHARK
+```
 
 ## Portas
 
+> "Como diferenciar uma conexão de serviço HTTP simples de um HTTPS?"
+
 Existe um registro internacional que mapeia as 'portas bem conhecidas'. Mais de 60 portas são especificadas para o uso de SSL/TLS, ex:
 
-```
+``` SLIDE
 $ cat /etc/services | grep SSL
-
-https   443/tcp       # http protocol over TLS/SSL
+https   443/tcp           # http protocol over TLS/SSL
 nntps   563/tcp   snntp   # NNTP over SSL
-ldaps   636/tcp       # LDAP over SSL
-ftps-data 989/tcp       # FTP over SSL (data)
-telnets   992/tcp       # Telnet over SSL
-imaps   993/tcp       # IMAP over SSL
-ircs    994/tcp       # IRC over SSL
-pop3s   995/tcp       # POP-3 over SSL
-suucp   4031/tcp      # UUCP over SSL
+ldaps   636/tcp           # LDAP over SSL
+ftps-data 989/tcp         # FTP over SSL (data)
+telnets   992/tcp         # Telnet over SSL
+imaps   993/tcp           # IMAP over SSL
+ircs    994/tcp           # IRC over SSL
+pop3s   995/tcp           # POP-3 over SSL
+suucp   4031/tcp          # UUCP over SSL
+
+$ cat /etc/services | grep HTTP
+http    80/tcp    www     # WorldWideWeb HTTP
+hkp   11371/tcp           # OpenPGP HTTP Keyserver
+
+cat /etc/services | grep irc
+irc   194/tcp             # Internet Relay Chat
+irc   194/udp
+ircs    994/tcp           # IRC over SSL
+ircs    994/udp
+ircd    6667/tcp          # Internet Relay Chat
+dircproxy 57000/tcp       # Detachable IRC Proxy
 ```
 
 
@@ -363,7 +437,6 @@ Ao contrário de qualquer assinatura, é uma com 3 propriedades muito particular
 TLS (Transport Layer Security) was implemented at the application layer, directly on top of TCP - a reliable transport. By doing this it enabled protocols above it (http, email, im, etc) to operate unchanged while providing communication security.  Nowadays it has been adapted to run over datagram protocols such as UDP (see Datagram Transport Layer Secutiry - DTLS - protocol) as well.
 
 Garante criptografia, autenticação e integridade de dados by establishing a cryptographically secure data channel with the peers agreeing on which ciphersuites will be used and the keys used to encrypt/decrypt the data. They also have to agree on the message framing mechanism which is responsible for signing each message with a *message authentication code* (`MAC`, kind of a checksum) to ensure both integrity and authenticity.
-
 
 ### E a negociação?
 
