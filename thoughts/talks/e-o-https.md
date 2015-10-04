@@ -1,8 +1,6 @@
 ---
 title: E o HTTPS?
-author:
--   name: Ciro S. Costa
-    affiliation: Universidade de São Paulo
+author: Ciro S. Costa
 tags: [networking, frontend, crypto]
 date: 03 Out, 2015
 abstract: |
@@ -18,19 +16,33 @@ abstract: |
 
 #CHANGELOG
 
-01 Out -    Concepção
-02 Out -    Delimitação de tópicos e marco teórico (crypto + tls)
+-   01 Out -    Concepção
+-   02 Out -    Delimitação de tópicos e marco teórico (crypto + tls)
+-   04 Out -    Introdução
 
 #TODO
 
 -   Estabelecer gancho entre os tópicos
--   Discorrer mais sobre:
+-   Estabelecer tópicos a ser abordados
+-   Estimar tempo de cada tópico
 
------
+# Rationale
+
+## Objetivos a Alcançar
+
+Em ordem crescente:
+
+-   Que o desenvolvedor frontend compreenda alguns dos benefícios do HTTPs
+-   Que assimile os 3 objetivos do TLS
+-   Que Aqueles presentes que mantenham algum website façam sua parte e configurem seus servidores e clientes para utilizar HTTPS
+
+
+# Talk
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Objetivos a Alcançar](#objetivos-a-alcan%C3%A7ar)
 - [E o HTTPS ?](#e-o-https-)
@@ -74,29 +86,51 @@ abstract: |
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-#Objetivos a Alcançar
+# E o HTTPS ?
 
-Em ordem crescente:
+// apresentação palestrante
 
--   Que o desenvolvedor frontend compreenda alguns dos benefícios do HTTPs
--   Que assimile os 3 objetivos do TLS
--   Que Aqueles presentes que mantenham algum website façam sua parte e configurem seus servidores e clientes para utilizar HTTPS
+## Intro
 
-#E o HTTPS ?
+> "Pra que?"
 
-> "TLS has exactly one performance problem: it is not used widely enough."
+```SLIDE
+Once upon a time ...
+```
 
-É bastante comum (OH) escutar comentários que citem problemas de performance com TLS. A questão é, será que isso ainda é um problema? Se for, é grande problema?
+Começar com uma história seguindo os `Padrões De Exemplos De Criptografia^{TM}`, i.e, usando os personagens Alice, Bob e Eve.
 
-Lógicamente haverá um custo. Não há 'free-lunch'. Mais operações terão que ser realizadas por conexão, mas no fim, eu particularmente acredito que vale a pena, considerando que qualquer sniffer poderia ver isto:
+> História: 'Alice' e 'Bob' conspiram contra seus países. 'Eve' escuta tudo. Existe esse meio de comunicação mundialmente conhecido chamado Internet, que possui um protocolo de comunicação entre aplicações, também muito bem conhecido, o HTTP.
+
+```SLIDE
+             EVE
+              |
+              |
+Alice   --------------  BOB
+        (meio inseguro)
+```
+
+> Historia: O HTTP sempre funcionou muito bem para Alice e Bob. Trocavam mensagens sem problemas, até que começaram a conspirar sobre seus países. A partir de agora Alice e Bob precisavam ser cuidadosos, afinal Eve era capaz de ver tudo
 
 [IMAGEM TRAFEGO WIRESHARK](#todo)
 
-Todo o seu conteúdo passando pela mão dele apenas vasculhando o que se passa na rede.
+Problema a resolver: prover comunicação segura sobre o meio inseguro. TLS provém os serviços mais comuns de segurança para conexões arbitrárias na web, minimizando os requisitos de expertise em criptografia. O melhor dos mundos seria aquele que  não houvesse necessidade de se saber sobre criptografia ou ter de se preocupar com segurança mas na realidade isto não é possível, e fica a cargo do desenvolvedor cuidar da aplicação e dos seus usuários. Mesmo que haja muito esforço para que a implementação seja fácil, ainda assim, como tudo em segurança, requer entendimento do se está fazendo.
 
-## All the communication should be secure by default"
+```SLIDE
+Huston, we've got a problem.
+```
+
+Ok, Alice e Bob tinham algo sensitivo em mãos, claramente.
+
+===> GANCHO: Tudo é conteúdo sensitivo?
+
+## "All the communication should be secure by default"
+
+> "Mas até meu blog?"
 
 Cada vez mais há pontos públicos de WiFi em cidades grandes, principalmente em pontos comerciais que buscam tal disposição como forma de atrair clientela. Apesar de conveniente, ao mesmo tempo trata-se de um grande atrativo para agentes maliciosos, que buscam fazer como na imagem.
+
+> Historia: Alice e Bob não começaram a conspirar atoa. (EXPANDIR)
 
 Não apenas banking e comércio, mas todos os meios de comunicação devem ser protegidos. Por mais que visualizar o conteúdo de apenas um site pode parecer não ser relevante, possivelmente por conta de um conteudo não relevante à primeira vista, ao se olhar o agregado de todos os métadados pode-se ter com bastante clareza noção das intenções de um usuário.
 
@@ -108,18 +142,28 @@ Independente de qual seja o foco do site ou o conteúdo o dono do site não deve
 
 Uma visita a um website por si só pode não ser de grande interesse para um atacante. O agregado revela muito mais. Você não quer contribuir para um ataque.
 
+===> GANCHO: Isto é novo?
+
 ## Back in the Old Days
 
-Netscape Navigator, Júlio 1994 (sem release publico): SSL como meio de prover comunicação segura na internet. Busca: privacidade nas mensagens, integridade e autenticação mútua.
+> "SSL/TLS não é novo. SSL é igual a TLS?"
+
+Netscape Navigator, Júlio 1994 (sem release publico): SSL como meio de prover comunicação segura na internet - focado em transações de comércio. Busca: privacidade nas mensagens, integridade e autenticação mútua.
+
+SSL/TLS como protocolo para comunicação segura.
 
 1999: RFC 2246  (TLS 1.0)
 2006: RFC 2246  (TLS 1.1)
 2008: RFC 2246  (TLS 1.2)
 
-// TODO mais sobre historia e motivação por tras da concepção do SSL
+// TODO melhorar
+//      buscar + historia e motivo da mudança de nome
 
+====> Ok, e como o TLS se relaciona com o HTTP?
 
-## E a Internet?
+## HTTP && HTTPS
+
+> "Em que parte esse TLS entra?"
 
 Até algum tempo para o desenvolvedor frontend bastava uma definição:
 
@@ -135,18 +179,26 @@ rede
 físico
 ```
 
-## Conexão
-
 ## RTT
 
-## O que é HTTPS
+> "Como mensuramos tempo na internet?"
+
+
+## Conexão
+
+> "O que é uma conexão?"
+
+### Conexão com TLS
+
+> "O que muda quando adicionamos aquela camada?"
+
 
 ## Portas
 
 Existe um registro internacional que mapeia as 'portas bem conhecidas'. Mais de 60 portas são especificadas para o uso de SSL/TLS, ex:
 
 ```
-➜  cat /etc/services | grep SSL
+$ cat /etc/services | grep SSL
 
 https   443/tcp       # http protocol over TLS/SSL
 nntps   563/tcp   snntp   # NNTP over SSL
