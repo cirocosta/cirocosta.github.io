@@ -90,4 +90,5 @@ $$
 - `logistic <variables>`: reports odds ratios
   - `stepwise, pr(0.05): logistic <variables>`
 
-// TODO continuar
+###
+
