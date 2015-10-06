@@ -16,10 +16,10 @@ abstract: |
 
 #CHANGELOG
 
--   01 Out -    Concepção
--   02 Out -    Delimitação de tópicos e marco teórico (crypto + tls)
--   04 Out -    Atualiza Introdução (+coeso, melhores ganchos, uso de historia)
--   04 Out -    Ampliação marco teórico e rationale.
+-   01 Out - Concepção
+-   02 Out - Delimitação de tópicos e marco teórico (crypto + tls)
+-   04 Out - Atualiza Introdução (+coeso, melhores ganchos, uso de historia)
+-   04 Out - Ampliação marco teórico e rationale.
 
 #TODO
 
