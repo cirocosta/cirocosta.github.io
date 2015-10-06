@@ -62,15 +62,15 @@ $$
 $$
 
 $$
-Pr(y=0) = \frac{e^{0}}{e^{0} + e^{z_1} + ... + {e^{z_n}}
+Pr(y=0) = \frac{e^{0}}{e^{0} + e^{z_1} + ... + e^{z_n}}
 $$
 
 $$
-Pr(y=1) = \frac{e^{z_1}}{e^{0} + e^{z_1} + ... + {e^{z_n}}
+Pr(y=1) = \frac{e^{z_1}}{e^{0} + e^{z_1} + ... + e^{z_n}}
 $$
 
 $$
-Pr(y=1) = \frac{e^{z_2}}{e^{0} + e^{z_1} + ... + {e^{z_n}}
+Pr(y=1) = \frac{e^{z_2}}{e^{0} + e^{z_1} + ... + e^{z_n}}
 $$
 
 ## Interpreting the Output
@@ -89,6 +89,4 @@ $$
   - `stepwise, pr(0.05): logit <variables>`
 - `logistic <variables>`: reports odds ratios
   - `stepwise, pr(0.05): logistic <variables>`
-
-###
 
