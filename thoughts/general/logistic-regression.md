@@ -70,7 +70,7 @@ Pr(y=1) = \frac{e^{z_1}}{e^{0} + e^{z_1} + ... + e^{z_n}}
 $$
 
 $$
-Pr(y=1) = \frac{e^{z_2}}{e^{0} + e^{z_1} + ... + e^{z_n}}
+Pr(y=2) = \frac{e^{z_2}}{e^{0} + e^{z_1} + ... + e^{z_n}}
 $$
 
 ## Interpreting the Output

@@ -41,6 +41,17 @@ Models the number of successes in a sequence of i.i.d bernoulli trials before a 
 
 ## Stata
 
+- `tabstat <var_y>, stats(mean var)
+  -   obtemos os valores de média e variância. Tais valores são uteis para verificarmos se há a presença de superdispersão dos dados.
+- `hist <var_y>, discrete`
+  -   mostra o histograma para a variável `<var_y>`
+- `mfx, at(var1=VALUE var2=VALUE)`
 - `poisson <variables>`
 - `poisson <variables>, irr`
+- `predict yhat` --> gera os valores preditos
+- `graph twoway mspline <dep> <exp> || scatter <dep> <exp>`
+
+
+
+
 
