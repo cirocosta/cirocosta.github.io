@@ -4,33 +4,39 @@ author: Ciro S. Costa
 date: Jul 07, 2015
 ---
 
-The HTTP standard does not specify TCP as the only transport protocol but in practice all HTTP trafic on the web is deliveried via TCP. IPv4 and IPv6 defines two different protocols:
+People often refer to it by naming it `TCP/IP` but as of today they're actually two different protocols:
 
-- **IP**: *Internet Protocol*
-> Provides the host-to-host routing and addressing.
+**IP - Internet Protocol**
+:   Provides the host-to-host routing and addressing.
 
-- **TCP**: *Transmission Control Protocol*
-> Provides the abstraction of a reliable network running over an unreliable channel, hiding most of the complexity of network communication from applications.
+**TCP Transmission Control Protocol**
+:   Provides the abstraction of a reliable network running over an unreliable channel, hiding most of the complexity of network communication from applications.
 
-TCP is a connection-oriented service that provides reliable, ordered and error-checked delivery of a stream of octets between applications running on hosts communicating over an IP network (as opposed to other protocols that are used when the application do not require such guarantees - e.g UDP that emphasizes reduced latency over reliability). 
+TCP is a **connection-oriented** service that provides **reliable**, **ordered** and **error-checked** delivery of a stream of octets between applications running on hosts communicating over an IP network (as opposed to other protocols that are used when the application do not require such guarantees - e.g UDP that emphasizes reduced latency over reliability).
 
-It also includes retransmission of lost packets (any cumulative stream not acknowledged is retransmitted), flow control and congestion control.
+It also includes **retransmission of lost packets** (any cumulative stream not acknowledged is retransmitted), **flow control** and **congestion control**.
 
-The protocol accepts data from a data stream, dividing it into chunks and then adding a TCP header, creating a TCP segment. This segment is then encapsulated into an Internet Protocol datagram and exchanged with peers.
+In the sending part, the protocol accepts data from a data stream, dividing it into chunks and then adding a TCP header, creating a TCP segment. This segment is then encapsulated into an Internet Protocol datagram and exchanged with peers.
 
-TCP connection is full-duplexx, meaning that an application can send and receive data in both directions on a given connection at any time (it must keep track of state information such as sequence numbers and window sizes for each direction of data flow - TX and RX).
+TCP **connection is full-duplex**, meaning that an application can send and receive data in both directions on a given connection at any time (it must keep track of state information such as sequence numbers and window sizes for each direction of data flow - TX and RX).
 
 TCP operations are divided into three phases. Connections must be properly established in a multi-step handshake process (connection establishment) before entering the data transfer phase. After data transmission is completed, the connection termination closed established virtual circuits and releases all allocated resources.
 
-
 TCP best practices and underlying algorithms that govern its performance continue to evolve, and most of these changes are only available in the latest kernels.
 
+ps: The HTTP standard does not specify TCP as the only transport protocol but in practice all HTTP trafic on the web is deliveried via TCP (even though this MIGHT change soon with the introduction of QUIC by Google).
 
-## (EXTRA) TLS
+It's important to take notice that TCP (and UDP) **does not provide any encryption mechanism** - all the data that passed through it is sensitive to sniffing. SSL (now TLS) then emerged as an enhancement to TCP (sitting on top on it). It's important to emphasize that SSL is not a third internet transport protocol (on the same level as TCP and UDP), but an enhancement of TCP implemented in the application layer (more specifically, in Session).
 
-Because TCP (and UDP) does not provide any encryption all the data that passar through it is sensitive to sniffing. SSL then surged as an enhancement to TCP. It's important to emphasize that SSL is not a third internet transport protocol (on the same level as TCP and UDP, but an enhancement of TCP implemented in the application layer. 
 
-## Three-Way Handshake
+## Connection-oriented
+
+Before begin to send data, two processes start a handshake, setting on each side many TCP state variables associated with the connection. Because de TCP protocol runs only in end systems, intermediate network elements do not a maintain TCP connection state. A connection is full-duplex and also point-to-point (between a single sender and a single receiver). As a convention, the side that initiates the connection is said to be the client and the other side, the server.
+
+To establish the connection a negotation must occur: the *three-way handshake*.
+
+
+### Three-Way Handshake
 
 3-way handshake is needed for establishing the connection. Even before a client attempts to connect the server must first bind to and listen at a port (`socket`, `bind` and `listen` syscalls) to open it up for connections (passive open). Once this is established a client may then initate an active open. It issues the active open by calling the `connect` syscall, generating the `SYN` segment, normally out data, just IP header and possible TCP options:
 
@@ -40,11 +46,33 @@ Because TCP (and UDP) does not provide any encryption all the data that passar t
 
 - ACK: client increments Y and X by one, completes the handshake by dispatching the ACK packet in the handshake (acknowledging the server's SYN).
 
-Having done that, both the client and server have received an acknowledgment of the connection. 
+Having done that, both the client and server have received an acknowledgment of the connection.
 
 Because of the delay imposed by the process of creating a new TCP connection we must aim to reuse the connection.
 
 ps.: There's a proposal of TCP Fast Open which aims to reduce the latency penalty by sending some data right in the SYN package. There are some limitations though.
+
+
+## Sending/receiving data
+
+The client process passes a stream of data through the socket to the server. The data goes to the connection's send buffer, a buffer set during the handshake. From time to time the transport mechanism grabs chunks of data (when? implementation defined) from it and pass it to the network layer in form of `segment`s. These segments have a maximum size, defined by `MSS` (maximum segment size - not including headers), determined by link-layer specifications (like `MTU` - maximum transmission unit).
+
+Each chunk of data is paired with a TCP header (creating a TCP segment), which can then be passed down to the network (after being encapsulated within IP datagrams).
+
+When a segment arrives, segment's data is placed in a TCP connection receive buffer. Application then reads the stream of data from it.
+
+
+## Segment
+
+Data field contains a chunk of application data (limited by the MSS).
+
+- source and destination port numbers (for (de)multiplexing
+- chuecksum field (for cheching the integrity)
+- sequence number & ack number (for reliable data transfer)
+- receive window (used for flow control - indicates the number of bytes a receiver wills to accept)
+- header length (length of the TCP header - variable length due to Options field  - generally empty - implying a 20bytes size of TCP header)
+- option field (useful for negotiating MSS or window scaling factor in high-speed networks)
+- flags field: 6bit for `ACK`, `RST`, `SYN`, `FIN`, `PSH`, `URG`.
 
 
 ## Congestion Avoidance and Control
@@ -55,7 +83,7 @@ We can think of it as a service for the general welfare of the Internet rather t
 
 ### Flow Control
 
-> Mechanism to prevent the sender from overwhelming the receiver with data it may not be able to process. Each side of the TCP connection advertises its own receive window (*rwnd*) - *sliding window flor control protocol*-, which communicates the size of the available buffer space to hold the incoming data. The workflow continue throughout the lifetime of every TCP connection (specifies the 'rwnd' for each TCP segment). 
+> Mechanism to prevent the sender from overwhelming the receiver with data it may not be able to process. Each side of the TCP connection advertises its own receive window (*rwnd*) - *sliding window flor control protocol*-, which communicates the size of the available buffer space to hold the incoming data. The workflow continue throughout the lifetime of every TCP connection (specifies the 'rwnd' for each TCP segment).
 
 > Each ACK packet carries the latest 'rwnd' value for each side, allowing both sizes to dynamically adjust the data flow rate to the capacity and processing speed of the sender and receiver.
 
