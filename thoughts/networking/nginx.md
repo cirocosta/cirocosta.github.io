@@ -2,6 +2,9 @@
 title: 'Inside Nginx'
 author: Ciro S. Costa
 date: 04 Sep, 2015
+description: ''
+tags: [networking, servers, nginx]
+published: false
 ---
 
 - focuses on high perf, concurrency and low memory usage.

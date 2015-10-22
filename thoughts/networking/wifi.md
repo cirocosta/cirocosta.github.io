@@ -2,9 +2,12 @@
 title: 'Ch.6: WiFi'
 author: Ciro S. Costa
 date: Jul 16, 2015
+description: ''
+tags: [networking, wifi]
+published: false
 ---
 
-The IEEE 802.11 standards were primarily an adaptation and extension of the existing Ethernet (802.3) standard. While the last is referred as LAN std, the primer is well known as WLAN. 
+The IEEE 802.11 standards were primarily an adaptation and extension of the existing Ethernet (802.3) standard. While the last is referred as LAN std, the primer is well known as WLAN.
 
 They all treat the shared medium (wire or radio waves) as a *random access channel*, meaning that there is no central process or scheduler that controls who or which device is allowed to transmit data at any point in time. WiFi relies on a probabilistic approach for doing this. If the channel load is below 10% then any explicit coordination or scheduling might be required (good throughput).
 

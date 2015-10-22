@@ -2,6 +2,9 @@
 title: 'Principles of Network Applications'
 author: Ciro S. Costa
 date: Aug 19, 2015
+description: ''
+tags: [networking, applications]
+published: false
 ---
 
 When developing a new application we must write software that will run on multiple end system, but not software that will run on network core devices as there's not part of the application layer.

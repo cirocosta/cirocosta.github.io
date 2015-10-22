@@ -2,6 +2,9 @@
 title: 'Tcp Fast Open'
 author: Ciro S. Costa
 date: 29 Sep, 2015
+description: ''
+tags: [networking, tcp, tfo]
+published: false
 ---
 
 Experimental TCP mechanism documented at [RFC7413](https://datatracker.ietf.org/doc/rfc7413/) under experimental status as of December 2014. It aims at reducing by 1 RTT the time to first byte. The mechanism achieves so by allowing data to be carried during the 3WHS phase: in the SYN (when requesting) and SYN-ACK (when responsing) packets and consumed by the receiving end during initial connection handshake.

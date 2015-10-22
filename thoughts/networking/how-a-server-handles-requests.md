@@ -2,6 +2,9 @@
 title: 'How a server handles requests'
 author: Ciro S. Costa
 date: Aug 20, 2015
+tags: [networking, servers]
+description: ''
+published: false
 ---
 
 TCP Server:

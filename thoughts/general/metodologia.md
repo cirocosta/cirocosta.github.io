@@ -2,6 +2,8 @@
 title: Metodologia do Trabalho Científico
 author: Ciro S. Costa
 date: 30 Sep, 2015
+published: false
+description: [general]
 ---
 
 # 1. Problemas Fundamentais e Teoria do Método Científico

@@ -2,6 +2,9 @@
 title: tcp
 author: ciro
 date: 16 Sep, 2015
+description: ''
+tags: [networking, transport]
+published: false
 ---
 
 *Transport Layer*

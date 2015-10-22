@@ -2,6 +2,9 @@
 title: Poisson and Negative Binomial Regression
 author: Ciro S. Costa
 date: 06 Out, 2015
+published: false
+description: ''
+tags: [statistics]
 ---
 
 *Poisson Regression*
@@ -50,8 +53,5 @@ Models the number of successes in a sequence of i.i.d bernoulli trials before a 
 - `poisson <variables>, irr`
 - `predict yhat` --> gera os valores preditos
 - `graph twoway mspline <dep> <exp> || scatter <dep> <exp>`
-
-
-
 
 

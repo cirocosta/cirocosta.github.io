@@ -2,6 +2,9 @@
 title: 'DNS - Domain Name System'
 author: Ciro S. Costa
 date: Aug 23, 2015
+tags: [networking, dns]
+description: ''
+published: false
 ---
 
 // *TODO organizar*

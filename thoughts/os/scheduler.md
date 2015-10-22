@@ -2,6 +2,9 @@
 title: 'A Scheduler Simulator'
 author: Ciro S. Costa
 date: 13 Sep, 2015
+tags: [OS, debugging, C]
+description: ''
+published: false
 ---
 
 # What is a scheduler?

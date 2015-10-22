@@ -1,15 +1,16 @@
 ---
 title: 'Ch.1: Networking 101'
 author: Ciro S. Costa
-tags: [intro, latency, bandwith]
 date: Jul 06, 2015
+tags: [networking, latency, bandwith]
+published: false
 ---
 
 # Networking 101
 
 For most websites, **latency** and not bandwidth is the performance bottleneck.
 
-## Latency 
+## Latency
 > **Latency**: the time from the source sending a packet to the destination receveing it.
 
 - *Propagation Delay*: Amount of time required for a message to travel from the sender to receiver (a function of distance over speed with which the signal propagates). Clearly there's a hard limit here as the speed of light is the maximum speed. There's also soft lights that are mandated by the material's refractive index. In fiber optics cables the light goes at about 200,000,000 m/s, corresponding to ~1.5 refractive index.

@@ -1,9 +1,11 @@
 ---
 title: 'Creating an IRC Server'
 author: Ciro S. Costa
-data: 08 Sep, 2015
+date: 08 Sep, 2015
+tags: [networking, irc]
+description: ''
+published: false
 ---
-
 
 ## How an IRC server work?
 

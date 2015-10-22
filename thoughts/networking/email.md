@@ -2,6 +2,9 @@
 title: 'Email'
 author: Ciro S. Costa
 date: 22 Sep, 2015
+tags: [networking, email]
+description: ''
+published: false
 ---
 
 1. Usuário escreve a mensagem para `destino@dominio` e envia com o agente de usuário (programa que implementa o lado cliente do protocolo SMTP) a mensagem.

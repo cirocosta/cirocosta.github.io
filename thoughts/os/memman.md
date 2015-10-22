@@ -2,7 +2,9 @@
 title: memman - A memory management simulator
 author: Ciro S. Costa
 date: 18 Out, 2015
-lang: pt-BR
+tags: [OS, debugging, C]
+description: ''
+published: false
 ---
 
 # EP2

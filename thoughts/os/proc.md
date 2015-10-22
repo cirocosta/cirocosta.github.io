@@ -2,6 +2,9 @@
 title: 'Proc and other utilities'
 author: Ciro S. Costa
 date: Aug 19, 2015
+tags: [OS, linux, proc]
+description: ''
+published: false
 ---
 
 

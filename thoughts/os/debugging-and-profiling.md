@@ -2,6 +2,9 @@
 title: 'Debugging and Profilling OS C code'
 author: Ciro S. Costa
 date: 23 Aug, 2015
+tags: [OS, debugging, C]
+description: ''
+published: false
 ---
 
 This semester i've started some more advanced classes in CS: Operating Systems and Networking. Something i miss from web stuff is good profiling and debugging. In the web environment we have great tools nowadays (which are getting better and better!). You often see a blog post here and there talking about new devtools features that browser implementors add to their software. But, comming to C (specially in a Linux environment) i felt that i wasn't capable of debugging those pieces of code that i was writting. **I was terribly wrong**.

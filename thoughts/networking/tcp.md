@@ -1,7 +1,10 @@
 ---
-title: 'Ch.2: Building Blocks of TCP'
+title: 'TCP'
 author: Ciro S. Costa
 date: Jul 07, 2015
+description: ''
+tags: [networking, tcp]
+published: false
 ---
 
 People often refer to it by naming it `TCP/IP` but as of today they're actually two different protocols:

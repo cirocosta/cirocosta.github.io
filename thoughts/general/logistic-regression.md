@@ -2,6 +2,9 @@
 title: Logistic Regression
 author: Ciro S. Costa
 date: 06 Out, 2015
+published: false
+description:
+tags: [statistics]
 ---
 
 # Intro

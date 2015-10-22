@@ -2,6 +2,9 @@
 title: 'Heartbleed - CVE-2014-0160'
 author: Ciro S. Costa
 date: 02 Out, 2015
+tags: [networking, tls, openssl]
+description: ''
+published: false
 ---
 
 

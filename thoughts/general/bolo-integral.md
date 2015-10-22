@@ -2,7 +2,11 @@
 title: 'Bolo Integral'
 author: Ciro S. Costa
 date: 08 Sep, 2015
+tags: [general]
+published: false
 ---
+
+// TODO foto do bolo!
 
 - 4 ovos
 - 1,5 colher sopa   - manteiga

@@ -2,6 +2,9 @@
 title: OpenSSL and C++
 author: Ciro S. Costa
 date: 02 Out, 2015
+description: ''
+tags: [networking, ssl, tls]
+published: false
 ---
 
 Knowing that on the web we **want** to take advantage of the benefits that TLS gives to us (see [the post on tls](#tls) in case you're not aware of how it works and what are these benefits) here i present some basics of the [OpenSSL](#) library as i read about it when coding my [programming assignment](#ttt).

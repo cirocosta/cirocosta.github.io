@@ -2,6 +2,9 @@
 title: BD em Saúde no Brasil - Week 1 -  Perspectivas do uso de BigData em saúde no Brasil
 author: Ciro S. Costa
 date: 20 Out, 2015
+description: ''
+published: false
+tags: [saude, brasil, bigdata]
 ---
 
 Crescimento no numero de estudos multicêntricos e pressão por tranparência --> aumento na quantidade de dados disponíveis. Novas formas de análise de dados complexos e não bem-estruturados são necessárias.

@@ -2,6 +2,9 @@
 title: 'Ch.4: Transport Layer Security (TLS)'
 author: Ciro S. Costa
 date: Jul 07, 2015
+description: ''
+tags: [networking, tls, ssl]
+published: false
 ---
 
 Because of the layered architecture of network protocols, running an application over TLS is no different from communicating directly over TCP. There are minimal application modifications to be done to make the deliver over TLS.

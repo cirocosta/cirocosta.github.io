@@ -2,6 +2,9 @@
 title: 'The Internet\'s core'
 author: Ciro S. Costa
 date: Aug 19, 2015
+tags: [networking, internet]
+description: ''
+published: false
 ---
 
 ## Packet Switching
