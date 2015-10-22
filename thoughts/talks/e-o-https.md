@@ -1,8 +1,9 @@
 ---
 title: E o HTTPS?
 author: Ciro S. Costa
-tags: [networking, frontend, crypto]
 date: 03 Out, 2015
+tags: [networking, frontend, crypto]
+description: ''
 abstract: |
   Ainda há motivos para não se utilizar HTTPS em um website?
   Há muito tempo não. Muita coisa mudou desde sua concepção
@@ -12,6 +13,7 @@ abstract: |
   conceitos por trás da tecnologia, denotar seus usos e expor
   algumas novas ferramentas que já estão aí para ajudar o
   desenvolvedor frontend a utilizar o protocolo.
+published: false
 ---
 
 #CHANGELOG

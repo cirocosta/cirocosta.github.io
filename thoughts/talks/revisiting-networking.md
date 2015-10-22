@@ -1,12 +1,12 @@
 ---
 title: 'Back to the Basics - Networking 101 e o Frontend'
-author:
-- name: Ciro S. Costa
-  affiliation: University of São Paulo
+author: Ciro S. Costa
 tags: [networking, web, talks]
 date: 16 Sep, 2015
 abstract: |
   TODO
+description: ''
+published: false
 ---
 
 # Rationale
