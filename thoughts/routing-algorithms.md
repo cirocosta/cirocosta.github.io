@@ -4,7 +4,9 @@ author: Ciro S. Costa
 date: 05 Nov, 2015
 ---
 
-# Dijkstra
+# Algorítimos de Roteamento
+
+## Dijkstra
 
 Trata-se de um algorítimo que exige visão global da rede. Constrói caminhos de menor custo de  1 fonte a todos os outros nós.
 
@@ -50,12 +52,12 @@ Diferentemente do anterior (de estado de enlace, de visão global) não se const
 
 
 d_x(y)    =      min(    c(x,v)      +     d_v(y)  )
-
-custo de             custo de x a v    distancia
+  |                         |                |
+custo de             custo de x a v      distancia
 x para y
 ```
 
-Dado um conjunto de ddestinos, um roteador de tempos em tempos terá um conjunto de `d_x(y)` (vetor de distância).
+Dado um conjunto de destinos, um roteador de tempos em tempos terá um conjunto de `d_x(y)` (vetor de distância).
 
 Para cada nó:
 
@@ -66,3 +68,24 @@ Para cada nó:
 ```
 
 - Vale notar que é necessário que haja um passo inicial destinado ao processo de descoberta das interfaces adjacentes. É também importante que o protocolo seja respeitado em todos os nós da rede.
+
+
+## Multicast
+
+In computer networking, multicast (one-to-many or many-to-many distribution[1]) is group communication[2] where information is addressed to a group of destination computers simultaneously.
+
+1. Os nós que quiserem receber as mensagens precisam informar o interesse. Há IPs reservados apenas para isso. Quando não desejar mais fazer parte da rede, deve informar ao roteador sua intenção de deixá-la.
+
+2. Os roteadores precisam suportar o multicast: eles tem um papel importante que é o de duplicar os pacotes. Precisam ser configurados para um grupo multicast. Uma vez configurados, os roteadores formam uma árvore da origem aos destinos copiando os pacotes quando necessário.
+
+3. As comunicações são chamadas de grupos multicast. Há um endereço IP associado mas o roteamento é diferente.
+
+Vale notar que no lado de quem envia é como se estivesse enviando para apenas um endereço (gargalo não fica em seu lado).
+
+> Group communication may either be application layer multicast[2] or network assisted multicast, where the latter makes it possible for the source to efficiently send to the group in a single transmission. Copies are automatically created in other network elements, such as routers, switches and cellular network base stations, but only to network segments that currently contain members of the group.
+
+>  the full range of multicast addresses is from 224.0.0.0 to 239.255.255.255. Since multicast addresses represent a group of IP devices (sometimes called a host group) they can only be used as the destination of a datagram; never the source. Multicast addresses in IPv6 have the prefix ff00::/8.
+
+Vale lembrar que é também fullduplex, sendo possível então que cada nó envie dados para toda a rede.
+
+
