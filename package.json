@@ -3,19 +3,22 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "build": "generate-md --layout github --input ./_thoughts --output ./thoughts ",
+    "start": "http-server -p 80"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cirocosta/cirocosta.github.io.git"
   },
-  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://cirocosta.github.io/)",
+  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://cirocosta.wedeploy.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cirocosta/cirocosta.github.io/issues"
+    "url": "http://github.com/cirocosta/cirocosta.github.io/issues"
   },
-  "homepage": "https://github.com/cirocosta/cirocosta.github.io",
+  "homepage": "http://cirocosta.wedeploy.io",
   "dependencies": {
-    "jsdom": "^2.0.0",
-    "mocha": "^2.1.0",
-    "mocha-jsdom": "^0.2.0"
+    "http-server": "^0.9.0",
+    "markdown-styles": "^3.1.8"
   }
 }
