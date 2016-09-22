@@ -1,7 +1,7 @@
 {
   "name": "cirocosta.github.io",
   "version": "1.0.0",
-  "description": "",
+  "description": ":D",
   "main": "index.js",
   "scripts": {
     "build": "generate-md --layout github --input ./_thoughts --output ./thoughts ",
