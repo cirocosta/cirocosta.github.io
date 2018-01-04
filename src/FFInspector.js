@@ -12,7 +12,7 @@ var elems = {
     document.querySelector('.line-v2'),
     document.querySelector('.line-h1'),
     document.querySelector('.line-h2'),
-  ]
+  ],
 };
 
 /**
@@ -37,7 +37,7 @@ var elems = {
  * @param {[type]} [varname] [description]
  * @return {[type]}      [description]
  */
-function updateLines (lines, elem) {
+function updateLines(lines, elem) {
   var r = elem.getBoundingClientRect();
 
   var v1 = [[r.left, 0], [r.left, window.innerHeight]];
@@ -47,7 +47,7 @@ function updateLines (lines, elem) {
 
   var lds = [v1, v2, h1, h2];
 
-  lines.forEach(function (line, i) {
+  lines.forEach(function(line, i) {
     line.setAttribute('x1', lds[i][0][0]);
     line.setAttribute('y1', lds[i][0][1]);
     line.setAttribute('x2', lds[i][1][0]);
@@ -64,7 +64,7 @@ function updateLines (lines, elem) {
  * @param  {[type]} elem [description]
  * @return {[type]}      [description]
  */
-function updateRect (rect, elem) {
+function updateRect(rect, elem) {
   var r = elem.getBoundingClientRect();
 
   rect.setAttribute('x', r.left);
@@ -81,19 +81,19 @@ function updateRect (rect, elem) {
  * @param  {[type]} elem  [description]
  * @return {[type]}       [description]
  */
-function updateArrow (arrow, elem) {
+function updateArrow(arrow, elem) {
   var spans = '';
 
   spans += '<span class="s-tag">' + elem.tagName.toLowerCase() + '</span> ';
 
-  if (elem.id)
-    spans += '<span class="s-id">#' + elem.id + '</span> ';
+  if (elem.id) spans += '<span class="s-id">#' + elem.id + '</span> ';
 
   if (elem.className)
     spans += '<span class="s-class">.' + elem.className + '</span> ';
 
   if (elem.dataset.text)
-    spans += ' <span class="s-separator"> | </span> ' + elem.dataset.text + '</span>';
+    spans +=
+      ' <span class="s-separator"> | </span> ' + elem.dataset.text + '</span>';
 
   arrow.children[0].innerHTML = spans;
 
@@ -102,12 +102,14 @@ function updateArrow (arrow, elem) {
 
   if (r.top < ra.height) {
     arrow.style.top = '0px';
-    arrow.style.left = r.left + (r.width/2|0) - (ra.width/2|0) + 'px';
+    arrow.style.left =
+      r.left + ((r.width / 2) | 0) - ((ra.width / 2) | 0) + 'px';
     arrow.className = 'arrow';
   } else {
     arrow.className = 'arrow show-arrow';
     arrow.style.top = r.top - ra.height - 10 + 'px';
-    arrow.style.left = r.left + (r.width/2|0) - (ra.width/2|0) + 'px';
+    arrow.style.left =
+      r.left + ((r.width / 2) | 0) - ((ra.width / 2) | 0) + 'px';
   }
 
   return arrow;
@@ -117,7 +119,7 @@ function updateArrow (arrow, elem) {
  * Updates lines, rect and arrows
  * @return {void}
  */
-function updateAll () {
+function updateAll() {
   updateLines(elems.LINES, elems._current);
   updateRect(elems.RECT, elems._current);
   updateArrow(elems.ARROW, elems._current);
@@ -127,7 +129,7 @@ function updateAll () {
  * Deactivates the inspector
  * @return {void}
  */
-function deactivateInspector () {
+function deactivateInspector() {
   elems.SVG.style['visibility'] = 'hidden';
   elems.ARROW.style['visibility'] = 'hidden';
 
@@ -139,7 +141,7 @@ function deactivateInspector () {
  * Activates the inspector
  * @return {void}
  */
-function activateInspector () {
+function activateInspector() {
   elems.SVG.style['visibility'] = 'visible';
   elems.ARROW.style['visibility'] = 'visible';
 
@@ -148,7 +150,7 @@ function activateInspector () {
   elems.BODY.addEventListener('mouseover', setCurrentElement);
 }
 
-function setCurrentElement (e) {
+function setCurrentElement(e) {
   elems.current = e.target;
 }
 
@@ -157,10 +159,10 @@ function setCurrentElement (e) {
  * element.
  */
 Object.defineProperty(elems, 'current', {
-  set: function (val) {
+  set: function(val) {
     this._current = val;
     updateAll();
-  }
+  },
 });
 
 /**
@@ -170,7 +172,7 @@ activateInspector();
 
 // 3D View
 
-document.querySelector('#SPECIAL').onclick = function (e) {
+document.querySelector('#SPECIAL').onclick = function(e) {
   deactivateInspector();
   threed.initRoot(document.querySelector('body'));
   threedMove.enable3dMove();

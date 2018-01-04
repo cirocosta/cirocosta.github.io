@@ -1,7 +1,0 @@
-{
-  "id": "static",
-  "type": "wedeploy/nodejs",
-  "hooks": {
-    "build": "npm install && npm run build"
-  }
-}
